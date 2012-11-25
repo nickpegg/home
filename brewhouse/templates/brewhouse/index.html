@@ -28,7 +28,7 @@
             None
             {% endif %}
         </td>
-        <td>{{ tap.beer.style }}</td>
+        <td>{{ tap.beer.style|default:"Unknown" }}</td>
     </tr>
     {% endfor %}
 </table>
