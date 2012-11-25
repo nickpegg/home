@@ -9,6 +9,9 @@
 
 {% if user.is_staff %}
 <h2>Menu</h2>
+<ul>
+    <li><a href="{% url beer-new %}">Add a beer</a></li>
+</ul>
 {% endif %}
 
 <h2>What's on Tap</h2>

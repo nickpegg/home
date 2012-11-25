@@ -1,11 +1,12 @@
 import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 import util
 from models import Beer, Event, Tap
+from forms import AddBeerForm
 
 
 def display(request):
@@ -46,7 +47,7 @@ def beer_new(request):
         redirect('display')
         
     if request.method == 'POST':
-        form = NewBeerForm(request.POST)
+        form = AddBeerForm(request.POST)
         if form.is_valid():
             b = Beer()
             b.name = form.cleaned_data['name']
@@ -72,12 +73,14 @@ def beer_new(request):
                 event.event_type = etype
                 event.date = brew_date + datetime.timedelta(days=num_days)
                 event.save()
+                
+            return redirect('beer-show', b.id)
         else:
             pass    # TODO set an error
     else:
-        form = NewBeerForm(request.POST)
+        form = AddBeerForm()
         
-    return render(request, 'new_beer.html', locals())
+    return render(request, 'brewhouse/new_beer.html', locals())
     
     
 @login_required

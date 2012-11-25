@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 
 from models import Beer, Event
@@ -23,8 +25,8 @@ class AddBeerForm(forms.Form):
         (6, 'Ready'),
     )
     
-    name        = models.CharField(max_length=100)
-    style       = models.CharField(max_length=100)
-    recipe_url  = models.CharField(max_length=1024)
+    name        = forms.CharField(max_length=100)
+    style       = forms.CharField(max_length=100, required=False)
+    recipe_url  = forms.CharField(max_length=1024, required=False)
 
-    brew_date   = models.DateField(auto_now_add=True)
+    brew_date   = forms.DateField(initial=datetime.datetime.now().date())

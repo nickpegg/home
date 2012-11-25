@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Add a Beer{% endblock%}
+
+{% block content %}
+<h1>Add a beer</h1>
+<form action='.' method='POST'>
+    {% if form.errors %}
+    <p>Your data has errors!</p>
+    <p>{{ form.errors }}</p>
+    {% endif %}
+    
+    <p>
+        <a href="{% url brewhouse-display %}" style="font-size:smaller;">Back to brewhouse</a>
+    </p>
+
+    <form method="post" action="{% url django.contrib.auth.views.login %}">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+
+    <input type="submit" value="Add Beer" />
+</form>
+{% endblock %}
