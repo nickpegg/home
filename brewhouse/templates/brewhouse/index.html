@@ -8,7 +8,7 @@
 <a href="/">&larr; Back to main menu</a>
 
 {% if user.is_staff %}
-<h2>Menu</h2>
+<h2>Admin Menu</h2>
 <ul>
     <li><a href="{% url beer-new %}">Add a beer</a></li>
 </ul>
@@ -47,7 +47,6 @@
     {% for beer, state, brewed, ready in beers %}
     <tr>
         <td><a href="{% url beer-show beer.id %}">{{ beer }}</a></td>
-        <td>{{ beer.style|default:"Unknown" }}</td>
         <td>{{ state }}</td>
         <td>{{ brewed }}</td>
         <td>{{ ready }}</td>
