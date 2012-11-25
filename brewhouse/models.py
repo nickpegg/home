@@ -87,11 +87,11 @@ class Event(models.Model):
     def __unicode__(self):
         return '%s - %s @ %s' % (self.beer, self.resolve_etype(self.event_type), self.date)
         
-    def resolve_etype(self, my_etype):
+    def resolve_etype(self):
         description = None
         
         for etype, desc in self.TYPES:
-            if etype == my_etype:
+            if etype == self.event_type:
                 description = desc
             
         return description

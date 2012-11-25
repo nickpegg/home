@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Beer - {{ beer.name }}{% endblock %}
+
+{% block content %}
+<a href="{% url brewhouse-display %}" style="font-size:smaller;">&larr; Back to brewhouse</a>
+
+<h1>{{ beer.name }}</h1>
+
+<h2>Stats</h2>
+<ul>
+    <li>Style: {{ beer.style|default:"Unknown" }}</li>
+    <li>Recipe: {{ beer.recipe_url|default:"Unknown" }}</li>
+</ul>
+
+<h2>Activity</h2>
+<ul>
+{% for event in events %}
+    <li>{{ event.resolve_etype }} on {{ event.date }}</li>
+{% endfor %}
+</ul>
+
+<h2>Planned Activity</h2>
+<ul>
+{% for event in future_events %}
+    <li>{{ event.resolve_etype }} on {{ event.date }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

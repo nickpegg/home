@@ -30,8 +30,14 @@ def display(request):
     return render(request, 'brewhouse/index.html', locals())
     
     
-def beer_show(request):
-    return HttpResponse('not implemented')
+def beer_show(request, id):
+    today = datetime.datetime.now().date()
+
+    beer = get_object_or_404(Beer, pk=id)
+    events = beer.event_set.filter(date__lte=today).order_by('date')
+    future_events = beer.event_set.filter(date__gt=today).order_by('date')
+    
+    return render(request, 'brewhouse/view_beer.html', locals())
     
 
 @login_required
