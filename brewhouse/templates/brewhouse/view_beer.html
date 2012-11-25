@@ -10,7 +10,15 @@
 <h2>Stats</h2>
 <ul>
     <li>Style: {{ beer.style|default:"Unknown" }}</li>
-    <li>Recipe: {{ beer.recipe_url|default:"Unknown" }}</li>
+    <li>
+        Recipe: 
+        {% if beer.recipe_url %}
+            <a href="{{ beer.recipe_url }}">{{ beer.recipe_url }}</a>
+        {% else %}
+        Unknown
+        {% endif %}
+
+    </li>
 </ul>
 
 <h2>Activity</h2>
