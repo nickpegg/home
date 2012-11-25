@@ -82,7 +82,7 @@ class Event(models.Model):
     
     class Meta:
         unique_together = ('beer', 'event_type')
-        ordering = ['-beer', '-date']
+        ordering = ['-beer', '-date', '-id']
         
     def __unicode__(self):
         return '%s - %s @ %s' % (self.beer, self.resolve_etype(), self.date)
