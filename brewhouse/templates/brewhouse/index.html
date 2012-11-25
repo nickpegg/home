@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Brewhouse{% endblock %}
+
+{% block content %}
+<h1>Nick's Brewhouse</h1>
+
+<a href="/">&larr; Back to main menu</a>
+
+{% if user.is_staff %}
+<h2>Menu</h2>
+{% endif %}
+
+<h2>What's on Tap</h2>
+<table border='1'>
+    <tr>
+        <th>Tap</th>
+        <th>Beer</th>
+        <th>Beer Style</th>
+    </tr>
+    {% for tap in taps %}
+    <tr>
+        <td>{{ tap.number }}</td>
+        <td>{{ tap.beer }}</td>
+        <td>{{ tap.beer.style }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>What's Coming Up</h2>
+<table border='1'>
+    <tr>
+        <th>Beer</th>
+        <th>Style</th>
+        <th>Current State</th>
+        <th>Brewed On</th>
+        <th>Estimated Finish</th>
+    </tr>
+    {% for beer, state, brewed, ready in beers %}
+    <tr>
+        <td>{{ beer }}</td>
+        <td>{{ beer.style }}</td>
+        <td>{{ state }}</td>
+        <td>{{ brewed }}</td>
+        <td>{{ ready }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

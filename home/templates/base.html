@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Nick's House - {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        {% block login %}
+        <p style="float: right; font-size:smaller; ">
+            {% if user.is_authenticated %}
+                Logged in as {{ user }}. 
+                <a href="/accounts/logout/">Log out?</a>
+            {% else %}
+                <a href="/accounts/login/">Log in</a>
+            {% endif %}
+        </p>
+        {% endblock %}
+
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
