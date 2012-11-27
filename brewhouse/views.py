@@ -27,6 +27,17 @@ def display(request):
             
         beers.append((beer, util.resolve_event_type(beer.current_state()), brewed_on, ready))
         
+    # Gather up 10 beers and their brewed/ready events
+    history = []
+    for brewed_event in Event.objects.filter(event_type=1).order_by('-date')[:10]:
+        beer = brewed_event.beer
+        try:
+            ready_event = beer.event_set.get(event_type=0)
+        except:
+            ready_event = None
+            
+        history.append((beer, brewed_event, ready_event))
+        
     
     return render(request, 'brewhouse/index.html', locals())
     
