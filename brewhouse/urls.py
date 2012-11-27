@@ -2,6 +2,8 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('brewhouse.views',
     url(r'^$', 'display', name='brewhouse-display'),
+    
+    url(r'^history/$', 'history', name='brewhouse-history'),
 
     url(r'^beer/new/$', 'beer_new', name='beer-new'),
     url(r'^beer/(?P<id>\d+)/$', 'beer_show', name='beer-show'),

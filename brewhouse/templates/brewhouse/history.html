@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Beer - {{ beer.name }}{% endblock %}
+
+{% block content %}
+<a href="{% url brewhouse-display %}" style="font-size:smaller;">&larr; Back to brewhouse</a>
+
+<h1>Brewhouse History</h1>
+
+<table border="1">
+    <tr>
+        <th>Beer</th>
+        <th>Brewed on</th>
+        <th>Ready on</th>
+    </tr>
+    {% for beer, brewed, ready in history %}
+    <tr>
+        <td><a href="{% url beer-show beer.id %}">{{ beer.name }}</a></td>
+        <td>{{ brewed.date }}</td>
+        <td>{{ ready.date|default:"Unknown" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

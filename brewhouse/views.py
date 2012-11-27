@@ -30,6 +30,21 @@ def display(request):
     
     return render(request, 'brewhouse/index.html', locals())
     
+
+def history(request):
+    # Gather up beers and their brewed/ready events
+    history = []
+    for brewed_event in Event.objects.filter(event_type=1).order_by('-date'):
+        beer = brewed_event.beer
+        try:
+            ready_event = beer.event_set.get(event_type=0)
+        except:
+            ready_event = None
+            
+        history.append((beer, brewed_event, ready_event))
+        
+    return render(request, 'brewhouse/history.html', locals())
+    
     
 def beer_show(request, id):
     today = datetime.datetime.now().date()
