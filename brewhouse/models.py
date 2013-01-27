@@ -15,9 +15,17 @@ class Beer(models.Model):
     style       = models.CharField(max_length=100, blank=True)
     recipe_url  = models.CharField(max_length=1024, blank=True)
     
+    class Meta:
+        ordering = ['-id']
     
     def __unicode__(self):
-        return self.name
+        name = self.name
+        brew_date = self.brew_date()
+        
+        if brew_date:
+            name += " ({0})".format(brew_date)
+            
+        return name
     
     def current_state(self):
         state = None
@@ -55,6 +63,15 @@ class Beer(models.Model):
                 break
             
         return started
+        
+    def brew_date(self):
+        brewed = None
+        
+        for event in self.event_set.all():
+            if event.event_type == 1:
+                brewed = event.date
+        
+        return brewed
 
 
 class Event(models.Model):

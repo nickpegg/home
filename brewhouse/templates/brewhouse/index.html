@@ -20,18 +20,20 @@
         <th>Tap</th>
         <th>Beer</th>
         <th>Beer Style</th>
+        <th>Brewed On</th>
     </tr>
     {% for tap in taps %}
     <tr>
         <td>{{ tap.number }}</td>
         <td>
             {% if tap.beer %}
-            <a href="{% url beer-show tap.beer.id %}">{{ tap.beer }}</a>
+            <a href="{% url beer-show tap.beer.id %}">{{ tap.beer.name }}</a>
             {% else %}
             None
             {% endif %}
         </td>
         <td>{{ tap.beer.style|default:"Unknown" }}</td>
+        <td>{{ tap.beer.brew_date|default:"Unknown" }}</td>
     </tr>
     {% endfor %}
 </table>
@@ -46,7 +48,7 @@
     </tr>
     {% for beer, state, brewed, ready in beers %}
     <tr>
-        <td><a href="{% url beer-show beer.id %}">{{ beer }}</a></td>
+        <td><a href="{% url beer-show beer.id %}">{{ beer.name }}</a></td>
         <td>{{ state|default:"Unknown" }}</td>
         <td>{{ brewed }}</td>
         <td>{{ ready }}</td>
