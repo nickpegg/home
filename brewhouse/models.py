@@ -79,6 +79,7 @@ class Event(models.Model):
     fermenter   = models.ForeignKey('Fermenter', default=None, null=True, blank=True)
     event_type  = models.IntegerField(choices=TYPES)
     date        = models.DateField()
+    completed   = models.BooleanField()
     
     class Meta:
         unique_together = ('beer', 'event_type')
