@@ -26,11 +26,9 @@ class Beer(models.Model):
 
         for event in self.event_set.order_by('date'):
             if not last_event:
-                # Gotta set this stuff to something
                 last_event = event
-                state = event.event_type
 
-            if event.date <= now and event.date >= last_event.date:
+            if event.completed and event.date >= last_event.date:
                 # In case of a date tie, go with the higher ID number
                 if event.date != last_event.date or event.id > last_event.id:
                     last_event = event

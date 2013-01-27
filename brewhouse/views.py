@@ -61,8 +61,8 @@ def beer_show(request, id):
     today = datetime.datetime.now().date()
 
     beer = get_object_or_404(Beer, pk=id)
-    events = beer.event_set.filter(date__lte=today).order_by('date')
-    future_events = beer.event_set.filter(date__gt=today).order_by('date')
+    events = beer.event_set.filter(completed=True).filter(date__lte=today).order_by('date')
+    future_events = beer.event_set.filter(completed=False).order_by('date')
     
     return render(request, 'brewhouse/view_beer.html', locals())
     
@@ -70,7 +70,7 @@ def beer_show(request, id):
 @login_required
 def beer_new(request):
     if not request.user.is_superuser:
-        redirect('display')
+        return redirect('display')
         
     if request.method == 'POST':
         form = AddBeerForm(request.POST)
@@ -112,7 +112,7 @@ def beer_new(request):
 @login_required
 def beer_edit(request, id):
     if not request.user.is_superuser:
-        redirect('display')
+        return redirect('display')
         
     beer = get_object_or_404(pk=id)
     if request.method == 'POST':
@@ -130,5 +130,17 @@ def beer_edit(request, id):
 def beer_delete(request, id):
     return HttpResponse("Not implemented.")
     if not request.user.is_superuser:
-        redirect('display')
+        return redirect('display')
+        
+@login_required
+def event_complete(request, event_id):
+    if not request.user.is_superuser:
+        return redirect('display')
+        
+    event = get_object_or_404(Event, pk=event_id)
+    event.completed = True
+    event.date = datetime.datetime.now().date()
+    event.save()
+        
+    return redirect('beer-show', event.beer.id)
 

@@ -31,14 +31,21 @@
 <h2>Activity</h2>
 <ul>
 {% for event in events %}
-    <li>{{ event.resolve_etype }} on {{ event.date }}</li>
+    <li>
+        {{ event.resolve_etype }} on {{ event.date }}
+    </li>
 {% endfor %}
 </ul>
 
 <h2>Planned Activity</h2>
 <ul>
 {% for event in future_events %}
-    <li>{{ event.resolve_etype }} on {{ event.date }}</li>
+    <li>
+        {{ event.resolve_etype }} on {{ event.date }}
+        {% if user.is_staff %}
+            (<a href="{% url event-complete event.id %}" onclick="return confirm('Are you sure you want to set this event as done today?');">Did this today</a>)
+        {% endif %}
+    </li>
 {% endfor %}
 </ul>
 {% endblock %}

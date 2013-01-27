@@ -9,4 +9,6 @@ urlpatterns = patterns('brewhouse.views',
     url(r'^beer/(?P<id>\d+)/$', 'beer_show', name='beer-show'),
     url(r'^beer/(?P<id>\d+)/edit/$', 'beer_edit', name='beer-edit'),
     url(r'^beer/(?P<id>\d+)/delete/$', 'beer_delete', name='beer-delete'),
+
+    url(r'^event/(?P<event_id>\d+)/done/$', 'event_complete', name='event-complete'),
 )

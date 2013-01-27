@@ -47,7 +47,7 @@
     {% for beer, state, brewed, ready in beers %}
     <tr>
         <td><a href="{% url beer-show beer.id %}">{{ beer }}</a></td>
-        <td>{{ state }}</td>
+        <td>{{ state|default:"Unknown" }}</td>
         <td>{{ brewed }}</td>
         <td>{{ ready }}</td>
     </tr>
