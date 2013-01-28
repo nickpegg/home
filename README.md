@@ -10,7 +10,6 @@ It's pretty sparse so far.
 
 ## TODO
 
-* Make it pretty!
 * Reminders
 * Light control 
     * Need to dust off some X10 code, install switches
