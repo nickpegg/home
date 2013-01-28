@@ -1,6 +1,8 @@
 # home.nickpegg.com
 
-This is a Django app that runs my home! And some aspects of my life, too.
+This is a Django app that runs my home! And some aspects of my life, too. 
+
+It's pretty sparse so far.
 
 ## What's Implemented
 
@@ -8,6 +10,7 @@ This is a Django app that runs my home! And some aspects of my life, too.
 
 ## TODO
 
+* Make it pretty!
 * Reminders
 * Light control 
     * Need to dust off some X10 code, install switches
