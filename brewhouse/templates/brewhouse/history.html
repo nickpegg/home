@@ -1,13 +1,16 @@
-{% extends "base.html" %}
+{% extends "brewhouse/base.html" %}
 
-{% block title %}Beer - {{ beer.name }}{% endblock %}
+{% block title %}Brewhouse History{% endblock %}
 
 {% block content %}
-<a href="{% url brewhouse-display %}" style="font-size:smaller;">&larr; Back to brewhouse</a>
+<ul class="breadcrumb">
+  <li><a href="{% url brewhouse-display %}">Brewhouse</a> <span class="divider">/</span></li>
+  <li class="active">History</li>
+</ul>
 
-<h1>Brewhouse History</h1>
+<h2>Brewhouse History</h2>
 
-<table border="1">
+<table class="table">
     <tr>
         <th>Beer</th>
         <th>Brewed on</th>

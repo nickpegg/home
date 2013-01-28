@@ -1,21 +1,55 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Nick's House - {% block title %}{% endblock %}</title>
+        
+        <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen" />
+        <style>
+            body {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
+            
+            {% block style %}
+            {% endblock %}
+        </style>
     </head>
     <body>
-        {% block login %}
-        <p style="float: right; font-size:smaller; ">
-            {% if user.is_authenticated %}
-                Logged in as {{ user }}. 
-                <a href="/accounts/logout/">Log out?</a>
-            {% else %}
-                <a href="/accounts/login/">Log in</a>
-            {% endif %}
-        </p>
-        {% endblock %}
-
-
-        {% block content %}
-        {% endblock %}
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="/">Nick's Apartment</a>
+                    <ul class="nav">
+                        <li class="{% block nav_class_home %}{% endblock %}"><a href="/">Home</a></li>
+                        <li class="{% block nav_class_brewhouse %}{% endblock %}">
+                            <a href="{% url brewhouse-display %}">Brewhouse</a>
+                        </li>
+                        <!--
+                        <li class="disabled {% block nav_class_reminders %}{% endblock %}"><a href="#">Reminders</a></li>
+                        <li class="disabled {% block nav_class_lights %}{% endblock %}"><a href="#">Lights</a></li>
+                        <li class="disabled {% block nav_class_temperature %}{% endblock %}"><a href="#">Temperature</a></li>
+                        -->
+                    </ul>
+                    <ul class="nav pull-right">
+                        {% if user.is_authenticated %}
+                            <li class="navbar-text"><span class="text-success">Howdy, {{ user }}!</span></li>
+                            {% if user.is_staff %}
+                                <li><a href="/admin/">Admin</a></li>
+                            {% endif %}
+                            <li><a href="/accounts/logout/">Log out</a></li>
+                        {% else %}
+                            <li><a href="/accounts/login/">Log in</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        
+        <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+        <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     </body>
 </html>

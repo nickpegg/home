@@ -1,21 +1,23 @@
-{% extends "base.html" %}
+{% extends "brewhouse/base.html" %}
 
 {% block title %}Brewhouse{% endblock %}
 
 {% block content %}
-<a href="/" style="font-size:smaller;">&larr; Back to main menu</a>
+<ul class="breadcrumb">
+  <li class="active"><a href="{% url brewhouse-display %}">Brewhouse</a> <span class="divider">/</span></li>
+</ul>
 
-<h1>Nick's Brewhouse</h1>
-
-{% if user.is_staff %}
-<h2>Menu</h2>
-<ul>
+{% if user.is_superuser %}
+<h2>Admin Links</h2>
+<ul class="nav nav-pills">
     <li><a href="{% url beer-new %}">Add a beer</a></li>
 </ul>
 {% endif %}
 
+<div class="row">
+<div class="span6">
 <h2>What's on Tap</h2>
-<table border='1'>
+<table class="table">
     <tr>
         <th>Tap</th>
         <th>Beer</th>
@@ -37,32 +39,34 @@
     </tr>
     {% endfor %}
 </table>
-
+</div>
+<div class="span6">
 <h2>What's Coming Up</h2>
-<table border='1'>
+<table class="table">
     <tr>
         <th>Beer</th>
         <th>Current State</th>
-        <th>Brewed On</th>
         <th>Estimated Finish</th>
     </tr>
     {% for beer, state, brewed, ready in beers %}
     <tr>
         <td><a href="{% url beer-show beer.id %}">{{ beer.name }}</a></td>
         <td>{{ state|default:"Unknown" }}</td>
-        <td>{{ brewed }}</td>
         <td>{{ ready }}</td>
     </tr>
     {% endfor %}
 </table>
+</div>
+</div>
 
 <h2>Last 10 Brewed Beers</h2>
 
-<p>
-    <a href="{% url brewhouse-history %}" style="font-size:smaller;">View Full History</a>
-</p>
+<ul class="nav nav-pills">
+    <li><a href="{% url brewhouse-history %}">View Full History</a></li>
+</ul>
 
-<table border="1">
+
+<table class="table">
     <tr>
         <th>Beer</th>
         <th>Brewed on</th>
@@ -76,4 +80,5 @@
     </tr>
     {% endfor %}
 </table>
+
 {% endblock %}

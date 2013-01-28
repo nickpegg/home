@@ -1,25 +1,55 @@
-{% extends "base.html" %}
+{% extends "brewhouse/base.html" %}
 
 {% block title %}Add a Beer{% endblock%}
 
 {% block content %}
-<h1>Add a beer</h1>
-<form action='.' method='POST'>
+<ul class="breadcrumb">
+  <li><a href="{% url brewhouse-display %}">Brewhouse</a> <span class="divider">/</span></li>
+  <li class="active">New Beer</li>
+</ul>
+
+<h2>Add a beer</h2>
+<form class="form-horizontal" action='.' method='POST'>
     {% if form.errors %}
     <p>Your data has errors!</p>
     <p>{{ form.errors }}</p>
     {% endif %}
     
-    <p>
-        <a href="{% url brewhouse-display %}" style="font-size:smaller;">Back to brewhouse</a>
-    </p>
+    <div class="control-group">
 
     <form method="post" action="{% url django.contrib.auth.views.login %}">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
+    <label class="control-label" for="id_name">Name:</label>
+    <div class="controls">
+        <input id="id_name" type="text" name="name" maxlength="100" />
+    </div>
+    
+    
+    <label class="control-label" for="id_style">Style:</label>
+    <div class="controls">
+        <input id="id_style" type="text" name="style" maxlength="100" />
+    </div>
+    
+    <label class="control-label" for="id_recipe_url">Recipe url:</label>
+    <div class="controls">
+        <input id="id_recipe_url" type="text" name="recipe_url" maxlength="1024" />
+    </div>
+    
+    <label class="control-label" for="id_brew_date">Brew date:</label>
+    <div class="controls">
+        <input type="text" name="brew_date" value="2013-01-27" id="id_brew_date" />
+            
+    </div>
 
-    <input type="submit" value="Add Beer" />
+    </div>
+    
+    <div class="control-group">
+        <div class="controls">
+            <input type="submit" class="btn btn-primary" value="Add Beer" />
+        </div>
+    </div>
+
+
+    </div>
 </form>
 {% endblock %}

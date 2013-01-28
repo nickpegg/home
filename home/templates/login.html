@@ -2,35 +2,31 @@
 
 {% block title %}Log In{% endblock %}
 
-{% block login %}{% endblock %}
+{% block style %}
+    form {
+        max-width: 300px;
+        padding: 10px 30px 30px;
+        margin: auto;
+        background-color: #f5f5f5;
+        border: 1px solid #e5e5e5;
+    }
+{% endblock %}
 
 {% block content %}
-
-<div align="center">
-
-    {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
-    
-    <p>
-        <a href="{% url home %}">Home</a>
-    </p>
-
-    <form method="post" action="{% url django.contrib.auth.views.login %}">
+{% if form.errors %}
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Your username and password didn't match. Please try again.
+    </div>
+{% endif %}
+<form method="post" action="{% url django.contrib.auth.views.login %}">
+   
+    <h2>Log in</h2>
     {% csrf_token %}
-    <table>
-    <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-    </tr>
-    <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-    </tr>
-    </table>
+    <input type="text" name="username" placeholder="Username" maxlength="30" /><br />
+    <input type="password" name="password" placeholder="Password" /><br />
 
-    <input type="submit" value="Log In" />
+    <input class="btn btn-primary" type="submit" value="Log In" />
     <input type="hidden" name="next" value="{{ next }}" />
-    </form>
-</div>
+</form>
 {% endblock %}

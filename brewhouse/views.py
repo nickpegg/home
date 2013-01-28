@@ -70,7 +70,7 @@ def beer_show(request, id):
 @login_required
 def beer_new(request):
     if not request.user.is_superuser:
-        return redirect('display')
+        return redirect('brewhouse-display')
         
     if request.method == 'POST':
         form = AddBeerForm(request.POST)
@@ -112,7 +112,7 @@ def beer_new(request):
 @login_required
 def beer_edit(request, id):
     if not request.user.is_superuser:
-        return redirect('display')
+        return redirect('brewhouse-display')
         
     beer = get_object_or_404(pk=id)
     if request.method == 'POST':
@@ -130,12 +130,12 @@ def beer_edit(request, id):
 def beer_delete(request, id):
     return HttpResponse("Not implemented.")
     if not request.user.is_superuser:
-        return redirect('display')
+        return redirect('brewhouse-display')
         
 @login_required
 def event_complete(request, event_id):
     if not request.user.is_superuser:
-        return redirect('display')
+        return redirect('brewhouse-display')
         
     event = get_object_or_404(Event, pk=event_id)
     event.completed = True
