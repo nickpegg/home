@@ -1,5 +1,4 @@
-{% url brewhouse-display as url_brewhouse_display %}
-{% url home as url_home %}
+{% load navactive %}
 
 <!DOCTYPE html>
 <html>
@@ -22,8 +21,8 @@
                 <div class="container">
                     <a class="brand" href="/">Nick's Apartment</a>
                     <ul class="nav">
-                        <li class="{% if not request.path or request.path == url_home %}active{% endif %}"><a href="/">Home</a></li>
-                        <li class="{% if request.path == url_brewhouse_display %}active{% endif %}">
+                        <li class="{% navactive request '^/$' %}"><a href="/">Home</a></li>
+                        <li class="{% navactive request '^/brewhouse/' %}">
                             <a href="{% url brewhouse-display %}">Brewhouse</a>
                         </li>
                         <!--
@@ -50,16 +49,25 @@
         <!-- Phone menu -->
         <div class="visible-phone">
             <h1>Nick's Apartment</h1>
+            
             <ul class="nav nav-tabs nav-stacked">
-                <li class="{% if not request.path or request.path == url_home %}active{% endif %}"><a href="/">Home</a></li>
-                <li class="{% if request.path == url_brewhouse_display %}active{% endif %}">
+                <li class="{% navactive request '^/$' %}"><a href="/">Home</a></li>
+                <li class="{% navactive request '^/brewhouse/' %}">
                     <a href="{% url brewhouse-display %}">Brewhouse</a>
                 </li>
-                
+                <!--
                 <li class="disabled"><a href="#">Reminders</a></li>
                 <li class="disabled"><a href="#">Lights</a></li>
                 <li class="disabled"><a href="#">Temperature</a></li>
-            
+                -->
+                {% if user.is_authenticated %}                    
+                    {% if user.is_staff %}
+                        <li><a href="/admin/">Admin</a></li>
+                    {% endif %}
+                    <li><a href="/accounts/logout/">Log out</a></li>
+                {% else %}
+                    <li><a href="/accounts/login/">Log in</a></li>
+                {% endif %}
             </ul>
         </div>
         
