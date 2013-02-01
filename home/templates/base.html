@@ -1,3 +1,6 @@
+{% url brewhouse-display as url_brewhouse_display %}
+{% url home as url_home %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,13 +16,14 @@
         </style>
     </head>
     <body>
-        <div class="navbar">
+        <!-- Desktop/Tablet menu -->
+        <div class="nav navbar hidden-phone">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="/">Nick's Apartment</a>
                     <ul class="nav">
-                        <li class="{% block nav_class_home %}{% endblock %}"><a href="/">Home</a></li>
-                        <li class="{% block nav_class_brewhouse %}{% endblock %}">
+                        <li class="{% if not request.path or request.path == url_home %}active{% endif %}"><a href="/">Home</a></li>
+                        <li class="{% if request.path == url_brewhouse_display %}active{% endif %}">
                             <a href="{% url brewhouse-display %}">Brewhouse</a>
                         </li>
                         <!--
@@ -41,6 +45,22 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        
+        <!-- Phone menu -->
+        <div class="visible-phone">
+            <h1>Nick's Apartment</h1>
+            <ul class="nav nav-tabs nav-stacked">
+                <li class="{% if not request.path or request.path == url_home %}active{% endif %}"><a href="/">Home</a></li>
+                <li class="{% if request.path == url_brewhouse_display %}active{% endif %}">
+                    <a href="{% url brewhouse-display %}">Brewhouse</a>
+                </li>
+                
+                <li class="disabled"><a href="#">Reminders</a></li>
+                <li class="disabled"><a href="#">Lights</a></li>
+                <li class="disabled"><a href="#">Temperature</a></li>
+            
+            </ul>
         </div>
         
         <div class="container">
