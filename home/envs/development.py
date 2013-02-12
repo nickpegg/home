@@ -144,7 +144,7 @@ GITHUB_API_SECRET            = ''
 
 LOGIN_URL          = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
-LOGIN_ERROR_URL    = '/accounts/login/'
+LOGIN_ERROR_URL    = '/accounts/profile/'
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
