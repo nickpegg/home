@@ -12,6 +12,10 @@ def profile(request):
     if request.method == 'POST':
         form = UserForm(request.POST, instance=request.user)
         
+        if 'delete_user' in request.POST.keys():
+            request.user.delete()
+            return redirect('/')
+        
         if form.is_valid():
             form.save()
             messages.success(request, 'User successfully updated.')
@@ -20,3 +24,4 @@ def profile(request):
         
     
     return render(request, 'accounts/profile.html', locals())
+

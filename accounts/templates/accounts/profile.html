@@ -32,7 +32,9 @@
         </p>
     {% endfor %}
 
-    <input class="btn btn-primary" type="submit" value="Update" />
+    <input class="btn btn-primary" type="submit" name="update" value="Update" />
+    <input class="btn btn-danger" type="submit" name="delete_user" value="Delete Me" onclick="return confirm('Are you sure you want to delete your account?');"/>
+    
     <input type="hidden" name="next" value="{{ next }}" />
 </form>
 {% endblock %}
