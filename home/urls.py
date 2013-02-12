@@ -10,12 +10,10 @@ urlpatterns = patterns('',
     # url(r'^$', 'home.views.home', name='home'),
     # url(r'^home/', include('home.foo.urls')),
     url(r'^brewhouse/', include('brewhouse.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
     
-    url(r'^accounts/', include('social_auth.urls')),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/', 'template_name': 'logout.html'}),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='login'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -142,7 +142,7 @@ GITHUB_APP_ID                = ''
 GITHUB_API_SECRET            = ''
 
 LOGIN_URL          = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/accounts/profile/'
 LOGIN_ERROR_URL    = '/login-error/'
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
@@ -164,6 +164,7 @@ INSTALLED_APPS = (
     'social_auth',
     
     'home',
+    'accounts',
     'brewhouse',
 )
 
@@ -196,5 +197,3 @@ LOGGING = {
     }
 }
 
-
-LOGIN_REDIRECT_URL = '/'
