@@ -3,10 +3,10 @@ from fabric.api import *
 env.hosts = ['bertha']
 
 def deploy():
-    local('git push deploy')
+    local('git push deploy deploy')
     
     with cd('/srv/home/site'):
-        run('git pull')
+        run('git pull origin deploy')
         
         with prefix('source ../bin/activate'):
             run('./manage.py migrate')

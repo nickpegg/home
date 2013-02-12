@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
     
+    url(r'^accounts/', include('social_auth.urls')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/', 'template_name': 'logout.html'}),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='login'),
 

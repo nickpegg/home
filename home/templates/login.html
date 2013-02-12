@@ -28,5 +28,14 @@
 
     <input class="btn btn-primary" type="submit" value="Log In" />
     <input type="hidden" name="next" value="{{ next }}" />
+    
+    <h3>Fancy Login</h3>
+<ul>
+    <li><a href="{% url socialauth_begin 'google-oauth2' %}">Google</a></li>
+    <li><a href="{% url socialauth_begin 'twitter' %}">Twitter</a></li>
+    <li><a href="{% url socialauth_begin 'facebook' %}">Facebook</a></li>
+    <li><a href="{% url socialauth_begin 'github' %}">GitHub</a></li>
+</ul>
+
 </form>
 {% endblock %}
