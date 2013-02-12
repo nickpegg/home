@@ -14,7 +14,7 @@ def profile(request):
         
         if form.is_valid():
             form.save()
-            messages.success(request, 'Great success!')
+            messages.success(request, 'User successfully updated.')
         else:
             messages.error(request, 'You have an error in your profile. See below errors.')
         
