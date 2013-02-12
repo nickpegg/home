@@ -1,6 +1,6 @@
 # Django settings for home project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -113,6 +113,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'home.urls'
@@ -143,7 +144,7 @@ GITHUB_API_SECRET            = ''
 
 LOGIN_URL          = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
-LOGIN_ERROR_URL    = '/login-error/'
+LOGIN_ERROR_URL    = '/accounts/login/'
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 

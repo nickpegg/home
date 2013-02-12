@@ -43,7 +43,7 @@
                             <li class="{% navactive request '^/accounts/profile/' %}"><a href="{% url accounts.views.profile %}">Profile</a></li>
                             <li><a href="/accounts/logout/">Log out</a></li>
                         {% else %}
-                            <li><a href="/accounts/login/">Log in</a></li>
+                            <li><a class="{% navactive request '^/accounts/login/' %}" href="/accounts/login/">Log in</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -71,7 +71,7 @@
                     <li class="{% navactive request '^/accounts/profile/' %}"><a href="{% url accounts.views.profile %}">Profile</a></li>
                     <li><a href="/accounts/logout/">Log out</a></li>
                 {% else %}
-                    <li><a href="/accounts/login/">Log in</a></li>
+                    <li><a class="{% navactive request '^/accounts/login/' %}" href="/accounts/login/">Log in</a></li>
                 {% endif %}
             </ul>
         </div>

@@ -9,6 +9,10 @@ from accounts.forms import UserForm
 def profile(request):
     form = UserForm(instance=request.user)
     
+    associations = {'twitter': False, 'google_oauth2': False, 'github': False}
+    for association in request.user.social_auth.all():
+        associations[association.provider.replace('-', '_')] = True
+    
     if request.method == 'POST':
         form = UserForm(request.POST, instance=request.user)
         

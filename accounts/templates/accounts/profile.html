@@ -31,10 +31,44 @@
             {% endif %}
         </p>
     {% endfor %}
+    
+    <h3>Website Associations</h3>
+    <ul>
+        <li>
+            Google - 
+            {% if associations.google_oauth2 %}
+                <a href="{% url socialauth_disconnect 'google-oauth2' %}">Disconnect</a>
+            {% else %}
+                <a href="{% url socialauth_associate_begin 'google-oauth2' %}">Connect</a>
+            {% endif %}
+        </li>
+        <li>
+            Twitter - 
+            {% if associations.twitter %}
+                <a href="{% url socialauth_disconnect 'twitter' %}">Disconnect</a>
+            {% else %}
+                <a href="{% url socialauth_associate_begin 'twitter' %}">Connect</a>
+            {% endif %}
+        </li>
+        <li>
+            GitHub - 
+            {% if associations.github %}
+                <a href="{% url socialauth_disconnect 'github' %}">Disconnect</a>
+            {% else %}
+                <a href="{% url socialauth_associate_begin 'github' %}">Connect</a>
+            {% endif %}
+        </li>
+    </ul>
+
+    
+    <br />
 
     <input class="btn btn-primary" type="submit" name="update" value="Update" />
     <input class="btn btn-danger" type="submit" name="delete_user" value="Delete Me" onclick="return confirm('Are you sure you want to delete your account?');"/>
     
     <input type="hidden" name="next" value="{{ next }}" />
+    
+    
+    
 </form>
 {% endblock %}
