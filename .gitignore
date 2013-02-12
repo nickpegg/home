@@ -1,4 +1,5 @@
 *.pyc
 dev.db
-envs/production.py
+home/envs/production.py
+home/envs/testing.py
 home/settings.py
