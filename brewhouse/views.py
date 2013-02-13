@@ -2,7 +2,8 @@ import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 
 import util
 from models import Beer, Event, Tap
@@ -63,6 +64,8 @@ def beer_show(request, id):
     beer = get_object_or_404(Beer, pk=id)
     events = beer.event_set.filter(completed=True).filter(date__lte=today).order_by('date')
     future_events = beer.event_set.filter(completed=False).order_by('date')
+    
+    beer_gone = beer.current_state() == 6
     
     return render(request, 'brewhouse/view_beer.html', locals())
     
@@ -131,6 +134,26 @@ def beer_delete(request, id):
     return HttpResponse("Not implemented.")
     if not request.user.is_superuser:
         return redirect('brewhouse-display')
+    
+        
+@user_passes_test(lambda u: u.is_staff)
+def beer_gone(request, beer_id):
+    beer = get_object_or_404(Beer, pk=beer_id)
+    
+    if beer.current_state() == 6:
+        messages.error(request, "This beer is already marked as 'gone'!")
+        return redirect('beer-show', beer.id)
+    
+    # Create a new event marking this beer as gone
+    event = Event()
+    event.beer = beer
+    event.date = datetime.datetime.now().date()
+    event.event_type = 6    # Hard-coding this is kind of gross...
+    event.completed = True
+    event.save()
+    
+    return redirect('beer-show', beer.id)
+    
         
 @login_required
 def event_complete(request, event_id):
@@ -141,6 +164,6 @@ def event_complete(request, event_id):
     event.completed = True
     event.date = datetime.datetime.now().date()
     event.save()
-        
+
     return redirect('beer-show', event.beer.id)
 

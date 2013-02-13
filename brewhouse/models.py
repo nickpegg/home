@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -88,6 +89,7 @@ class Event(models.Model):
         (3, 'Secondary Fermentation'),
         (4, 'Kegged'),
         (5, 'Bottled'),
+        (6, 'Gone'),
     )
 
     beer        = models.ForeignKey(Beer)
@@ -128,6 +130,7 @@ class Tap(models.Model):
 
     def __unicode__(self):
         return 'Tap #' + str(self.number)
+
 
 class Fermenter(models.Model):
     """
