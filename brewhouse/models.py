@@ -143,3 +143,23 @@ class Fermenter(models.Model):
     
     def __unicode__(self):
         return self.description
+
+
+class Reservation(models.Model):
+    """
+    Reservation of a growler of beer for a user
+    """
+    
+    beer = models.ForeignKey(Beer)
+    user = models.ForeignKey(User)
+    approved = models.BooleanField(default=False)
+    fulfilled = models.BooleanField(default=False)
+    
+    class Meta:
+        permissions = (
+            ('can_reserve', "User can reserve a growler for a beer")
+        )
+    
+    def __unicode__(self):
+        return unicode(beer) + " for " + user.username
+
