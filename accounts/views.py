@@ -1,9 +1,25 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 
-from accounts.forms import UserForm
+from accounts.forms import UserForm, NewUserForm
+
+
+def register(request):
+    form = NewUserForm()
+    if request.POST:
+        form = NewUserForm(request.POST)
+        
+        if form.is_valid():
+            new_user = form.save()
+            messages.success(request, "Account created! Now log in.")
+            return redirect('django.contrib.auth.views.login')
+        else:
+            messages.error(request, "Your form had errors. See below.")
+    
+    return render(request, 'accounts/signup.html', locals())
 
 @login_required
 def profile(request):
