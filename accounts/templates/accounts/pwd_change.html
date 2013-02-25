@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Change Password{% endblock %}
+
+{% block style %}
+    form {
+        max-width: 350px;
+        padding: 10px 30px 30px;
+        margin: auto;
+        background-color: #f5f5f5;
+        border: 1px solid #e5e5e5;
+    }
+{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url django.contrib.auth.views.password_change %}">
+    <h1>Change Password</h1>
+
+    {% csrf_token %}
+    {% for field in form %}
+    <p>
+        <h5>{{ field.label }}:</h5>
+        <div>{{ field }}</div>
+        <span class="helptext">{{ field.help_text }}</span>
+        {% if field.errors %}
+            <div class="alert alert-error">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+    </p>
+{% endfor %}
+
+    <input class="btn btn-primary" type="submit" value="Change Password" />
+</form>
+{% endblock %}

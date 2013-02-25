@@ -3,7 +3,7 @@
 {% block title %}Profile{% endblock %}
 
 {% block style %}
-    form {
+    div.form {
         max-width: 350px;
         padding: 10px 30px 30px;
         margin: auto;
@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="form">
 <form method="post" action="{% url accounts.views.profile %}">
 
     <h2>Edit Profile</h2>
@@ -28,7 +29,7 @@
             <div>{{ field }}</div>
             
             {% if field.name == "email" %}
-                <span class="helptext">It's a really good idea to set this in case you forget your password.</span>
+                <span class="helptext">It's a really good idea to set an email address in case you forget your password.</span>
             {% endif %}
             
             {% if field.errors %}
@@ -40,7 +41,20 @@
             {% endif %}
         </p>
     {% endfor %}
+    <input class="btn btn-block btn-primary" type="submit" name="do_profile" value="Update" />
     
+    <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+</div>
+<div class="form">
+    <h3>Change Password</h3>
+    <form method="POST" action="{% url accounts.views.profile %}">
+        {% include 'accounts/forms/pwd_change.html' %}
+        <input class="btn btn-primary btn-block" type="submit" value="Change Password" name="do_password" />
+    </form>
+</div>
+
+<div class="form">
     <h3>Website Associations</h3>
     <ul>
         <li>
@@ -68,15 +82,11 @@
             {% endif %}
         </li>
     </ul>
+</div>
 
-    
-    <br />
-    <input class="btn btn-primary" type="submit" name="update" value="Update" />
-    <input class="btn btn-danger" type="submit" name="delete_user" value="Delete Me" onclick="return confirm('Are you sure you want to delete your account?');"/>
-    
-    <input type="hidden" name="next" value="{{ next }}" />
-    
-    
-    
-</form>
+
+<div class="form">
+    <h3>Danger Zone</h3>
+    <a class="btn btn-block btn-danger" href="{% url accounts.views.delete %}" onclick="return confirm('Are you sure you want to delete your account?');">Delete Account</a>
+</div>
 {% endblock %}
