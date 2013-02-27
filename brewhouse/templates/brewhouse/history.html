@@ -12,11 +12,13 @@
 <h2>Brewhouse History</h2>
 
 <table class="table">
-    <tr>
-        <th>Beer</th>
-        <th>Brewed on</th>
-        <th>Ready on</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>Beer</th>
+            <th>Brewed on</th>
+            <th>Ready on</th>
+        </tr>
+    </thead>
     {% for beer, brewed, ready in history %}
     <tr>
         <td><a href="{% url 'beer-show' beer.id %}">{{ beer.name }}</a></td>
