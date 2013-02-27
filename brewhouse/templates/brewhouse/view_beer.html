@@ -15,7 +15,7 @@
 
 
 <ul class="nav nav-pills nav-stacked">
-    {% if beer.is_reservable %}
+    {% if can_reserve %}
     <li><a href="{% url 'brewhouse.views.new_reservation' beer.id %}">Reserve a growler of this beer</a></li>
     {% endif %}
     {% if user.is_staff %}

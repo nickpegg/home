@@ -64,7 +64,8 @@ def beer_show(request, id):
     beer = get_object_or_404(Beer, pk=id)
     events = beer.event_set.filter(completed=True).filter(date__lte=today).order_by('date')
     future_events = beer.event_set.filter(completed=False).order_by('date')
-    
+
+    can_reserve = beer.is_reservable() and request.user.has_perm('brewhouse.add_reservation')    
     beer_gone = beer.current_state() == 6
     
     return render(request, 'brewhouse/view_beer.html', locals())
@@ -168,12 +169,20 @@ def event_complete(request, event_id):
     return redirect('beer-show', event.beer.id)
 
 @login_required
-@permission_required('brewhouse.add_reservation')
 def new_reservation(request, beer_id):
     beer = get_object_or_404(Beer, pk=beer_id)
 
+    if not request.user.has_perm('brewhouse.add_reservation'):
+        messages.warning(request, "You're not allowed to reserve beer.")
+        return redirect('beer-show', beer_id)
+
     if not beer.is_reservable():
         messages.warning(request, "That beer is not reservable!")
+        return redirect('beer-show', beer_id)
+
+    if Reservation.objects.filter(user=request.user, beer=beer):
+        # User has already reserved this beer!
+        messages.error(request, "You've already reserved a growler of this beer!")
         return redirect('beer-show', beer_id)
 
     if request.method == "POST" and request.POST.get('doit'):
@@ -187,11 +196,24 @@ def new_reservation(request, beer_id):
 
     return render(request, 'brewhouse/new_reservation.html', locals())
 
+
 @login_required
 def list_reservations(request):
     reservations = request.user.reservation_set.all()
-    return HttpResponse('lol not implemented')
+    return render(request, 'brewhouse/reservations.html', locals())
 
+
+@login_required
+def delete_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, reservation_id)
+
+    if request.user != reservation.user or not request.user.is_staff():
+        messages.warning("You cannot delete that reservation!")
+    else:
+        reservation.delete()
+        messages.success("Reservation removed")
+
+    return redirect('brewhouse.views.list_reservations')
 
 
 @login_required
