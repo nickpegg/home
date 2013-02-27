@@ -10,7 +10,7 @@
 
 {% if user_can_request or user.is_staff %}
 <h2>Links</h2>
-<ul class="nav nav-pills">
+<ul class="nav nav-pills nav-stacked">
     {% if user_can_request %}
         <li><a href="{% url 'brewhouse.views.list_reservations' %}">Your beer reservations</a></li>
     {% endif %}
