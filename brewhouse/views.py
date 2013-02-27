@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test, per
 from django.contrib import messages
 
 import util
-from models import Beer, Event, Tap
+from models import Beer, Event, Tap, Reservation
 from forms import AddBeerForm
 
 
@@ -172,13 +172,46 @@ def event_complete(request, event_id):
 def new_reservation(request, beer_id):
     beer = get_object_or_404(Beer, pk=beer_id)
 
-    if request.method == "POST" and request.get('doit'):
-        # Create the reservation
-        r = Reservation()
+    if not beer.is_reservable():
+        messages.warning(request, "That beer is not reservable!")
+        return redirect('beer-show', beer_id)
 
+    if request.method == "POST" and request.POST.get('doit'):
+        r = Reservation()
+        r.beer = beer
+        r.user = request.user
         r.save()
-    return HttpResponse('lol not implemented')
+
+        messages.success(request, "Your beer reservation request has been made and is pending approval.")
+        return redirect('beer-show', beer_id)
+
+    return render(request, 'brewhouse/new_reservation.html', locals())
 
 @login_required
 def list_reservations(request):
+    reservations = request.user.reservation_set.all()
     return HttpResponse('lol not implemented')
+
+
+
+@login_required
+def approve_reservation(request, reservation_id):
+    return HttpResponse('not implemented')
+    r = get_object_or_404(Reservation, reservation_id)
+    r.approved = True
+    r.save()
+
+    messages.success(request, "Reservation approved")
+    # TODO send an email telling the user
+    
+
+@login_required
+def fulfill_reservation(request, reservation_id):
+    return HttpResponse('not implemented')
+    r = get_object_or_404(Reservation, reservation_id)
+    r.fulfilled = True
+    r.save()
+
+    messages.success(request, "Reservation marked as fulfilled")
+    # TODO send an email telling the user
+    

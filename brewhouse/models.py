@@ -78,7 +78,7 @@ class Beer(models.Model):
     def is_gone(self):
         gone = False
 
-        for event in self.event.set.all():
+        for event in self.event_set.all():
             if event.event_type == 6:
                 gone = True
                 break
@@ -87,6 +87,7 @@ class Beer(models.Model):
 
     def is_reservable(self):
         # Assumes all reservations are for 1 gallon
+        # and that we only release 3 gallons of a particular beer
         return not self.is_gone() and self.reservation_set.count() < 3
 
 

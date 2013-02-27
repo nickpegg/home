@@ -13,17 +13,20 @@
     <h1>{{ beer.name }}</h1>
 </div>
 
-{% if user.is_staff %}
-<h2>Admin Links</h2>
+
 <ul class="nav nav-pills nav-stacked">
-    <li><a href="{% url 'admin:brewhouse_beer_change' beer.id %}">Edit this beer in admin</a></li>
+    {% if beer.is_reservable %}
+    <li><a href="{% url 'brewhouse.views.new_reservation' beer.id %}">Reserve a growler of this beer</a></li>
+    {% endif %}
+    {% if user.is_staff %}
+        <li><a href="{% url 'admin:brewhouse_beer_change' beer.id %}">Edit this beer in admin</a></li>
     
-    {% if not beer_gone %}
-        <li><a href="{% url 'brewhouse.views.beer_gone' beer.id %}" onclick="return confirm('Are you sure you want to mark this beer
- as gone?');">Mark this beer as gone</a></li>
+        {% if not beer_gone %}
+            <li><a href="{% url 'brewhouse.views.beer_gone' beer.id %}" onclick="return confirm('Are you sure you want to mark this beer as gone?');">Mark this beer as gone</a></li>
+        {% endif %}
     {% endif %}
 </ul>
-{% endif %}
+
 
 <h2>Stats</h2>
 <ul>

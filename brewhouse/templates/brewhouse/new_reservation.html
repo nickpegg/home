@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}New Reservation{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Nick's Apartment</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'brewhouse-display' %}">Brewhouse</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'beer-show' beer.id %}">{{ beer.name }}</a><span class="divider">/</span></li>
+    <li class="active">Reserve</li>
+</ul>
+
+<h2>Reserve a Growler of {{ beer.name }}</h2>
+
+<h3>By clicking the button you realize that:</h3>
+<ul>
+    <li>All reservations are pending approval. This allows Nick to make sure everyone gets a chance to try stuff.</li>
+    <li>Reservations may be subject to a growler rental fee.</li>
+</ul>
+<form method="POST" action="">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-primary" name="doit" value="Yeah, ok, fine. Let's do this!" />
+</form>
+{% endblock %}
