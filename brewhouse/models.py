@@ -184,9 +184,12 @@ class Reservation(models.Model):
 @receiver(pre_save, sender=Reservation)
 def notify_reservation_user(sender, instance, **kwargs):
     # If the user has no email address, skip this
-    if instance.user.email:
-        original = Reservation.objects.get(pk=instance.id)
+    try:
+        original = Reservation.objects.filter(pk=instance.id)
+    except:
+        original = None
 
+    if original and instance.user.email:
         if not original.approved and instance.approved:
             msg = render_to_string('brewhouse/email/reservation_approved.html', {'reservation': instance})
             send_mail('Your beer reservation has been approved!', msg, 'nick@nickpegg.com', [instance.user.email], fail_silently=True)
