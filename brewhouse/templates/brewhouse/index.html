@@ -8,7 +8,7 @@
     <li class="active">Brewhouse</li>
 </ul>
 
-{% if user.is_superuser %}
+{% if user.is_staff %}
 <h2>Admin Links</h2>
 <ul class="nav nav-pills">
     <li><a href="{% url beer-new %}">Add a beer</a></li>

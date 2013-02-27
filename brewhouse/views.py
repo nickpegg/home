@@ -2,7 +2,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib import messages
 
 import util
@@ -167,3 +167,18 @@ def event_complete(request, event_id):
 
     return redirect('beer-show', event.beer.id)
 
+@login_required
+@permission_required('brewhouse.add_reservation')
+def new_reservation(request, beer_id):
+    beer = get_object_or_404(Beer, pk=beer_id)
+
+    if request.method == "POST" and request.get('doit'):
+        # Create the reservation
+        r = Reservation()
+
+        r.save()
+    return HttpResponse('lol not implemented')
+
+@login_required
+def list_reservations(request):
+    return HttpResponse('lol not implemented')
