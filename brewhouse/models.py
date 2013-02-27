@@ -71,8 +71,23 @@ class Beer(models.Model):
         for event in self.event_set.all():
             if event.event_type == 1:
                 brewed = event.date
+                break
         
         return brewed
+
+    def is_gone(self):
+        gone = False
+
+        for event in self.event.set.all():
+            if event.event_type == 6:
+                gone = True
+                break
+
+        return gone
+
+    def is_reservable(self):
+        # Assumes all reservations are for 1 gallon
+        return not self.is_gone() and self.reservation_set.count() < 3
 
 
 class Event(models.Model):
@@ -155,11 +170,5 @@ class Reservation(models.Model):
     approved = models.BooleanField(default=False)
     fulfilled = models.BooleanField(default=False)
     
-    class Meta:
-        permissions = (
-            ('can_reserve', "User can reserve a growler for a beer")
-        )
-    
     def __unicode__(self):
         return unicode(beer) + " for " + user.username
-
