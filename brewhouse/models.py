@@ -2,6 +2,10 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
+from django.core.mail import send_mail
 
 # Create your models here.
 
@@ -15,6 +19,7 @@ class Beer(models.Model):
     name        = models.CharField(max_length=100)
     style       = models.CharField(max_length=100, blank=True)
     recipe_url  = models.CharField(max_length=1024, blank=True)
+    unreservable = models.BooleanField(default=False)
     
     class Meta:
         ordering = ['-id']
@@ -88,7 +93,7 @@ class Beer(models.Model):
     def is_reservable(self):
         # Assumes all reservations are for 1 gallon
         # and that we only release 3 gallons of a particular beer
-        return not self.is_gone() and self.reservation_set.count() < 3
+        return not self.is_gone() and self.reservation_set.count() < 3 and not self.unreservable
 
 
 class Event(models.Model):
@@ -173,3 +178,14 @@ class Reservation(models.Model):
     
     def __unicode__(self):
         return unicode(self.beer) + " for " + self.user.username
+
+
+# Signals - probably should be in a separate file but that feels like a waste
+@receiver(pre_save, sender=Reservation)
+def notify_reservation_user(sender, instance, **kwargs):
+    original = Reservation.objects.get(pk=instance.id)
+
+    if not original.approved and instance.approved:
+        pass    # TODO Send approval email
+    if not original.approved and instance.fulfilled:
+        pass    # TODO Send fulfilled email
