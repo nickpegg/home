@@ -200,6 +200,9 @@ def new_reservation(request, beer_id):
 
 @login_required
 def list_reservations(request):
+    if not request.user.has_perm('brewhouse.add_reservation'):
+        return redirect('brewhouse-display')
+
     reservations = request.user.reservation_set.all()
     return render(request, 'brewhouse/reservations.html', locals())
 
