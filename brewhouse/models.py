@@ -172,4 +172,4 @@ class Reservation(models.Model):
     fulfilled = models.BooleanField(default=False)
     
     def __unicode__(self):
-        return unicode(beer) + " for " + user.username
+        return unicode(self.beer) + " for " + self.user.username
