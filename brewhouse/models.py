@@ -185,7 +185,7 @@ class Reservation(models.Model):
 def notify_reservation_user(sender, instance, **kwargs):
     # If the user has no email address, skip this
     try:
-        original = Reservation.objects.filter(pk=instance.id)
+        original = Reservation.objects.get(pk=instance.id)
     except:
         original = None
 
