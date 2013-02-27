@@ -6,8 +6,8 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
-# Create your models here.
 
 class Beer(models.Model):
     """
@@ -183,9 +183,13 @@ class Reservation(models.Model):
 # Signals - probably should be in a separate file but that feels like a waste
 @receiver(pre_save, sender=Reservation)
 def notify_reservation_user(sender, instance, **kwargs):
-    original = Reservation.objects.get(pk=instance.id)
+    # If the user has no email address, skip this
+    if instance.user.email:
+        original = Reservation.objects.get(pk=instance.id)
 
-    if not original.approved and instance.approved:
-        pass    # TODO Send approval email
-    if not original.approved and instance.fulfilled:
-        pass    # TODO Send fulfilled email
+        if not original.approved and instance.approved:
+            msg = render_to_string('brewhouse/email/reservation_approved.html', {'reservation': instance})
+            send_mail('Your beer reservation has been approved!', msg, 'nick@nickpegg.com', [instance.user.email], fail_silently=True)
+        if not original.fulfilled and instance.fulfilled:
+            msg = render_to_string('brewhouse/email/reservation_fulfilled.html', {'reservation': instance})
+            send_mail('Your beer reservation has been fulfilled!', msg, 'nick@nickpegg.com', [instance.user.email], fail_silently=True)
