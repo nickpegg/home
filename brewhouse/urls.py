@@ -16,6 +16,5 @@ urlpatterns = patterns('brewhouse.views',
     url(r'^event/(?P<event_id>\d+)/done/$', 'event_complete', name='event-complete'),
     
     url(r'^reservations/$', 'list_reservations'),
-    url(r'^reservations/(?P<reservation_id>\d+)/approve/$', 'approve_reservation'),
-    url(r'^reservations/(?P<reservation_id>\d+)/fulfill/$', 'fulfill_reservation'),
+    url(r'^reservations/(?P<reservation_id>\d+)/delete/$', 'delete_reservation'),
 )

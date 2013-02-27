@@ -38,7 +38,8 @@ def display(request):
             ready_event = None
             
         history.append((beer, brewed_event, ready_event))
-        
+
+    user_can_request = request.user.has_perm('brewhouse.add_reservation')        
     
     return render(request, 'brewhouse/index.html', locals())
     
@@ -205,35 +206,13 @@ def list_reservations(request):
 
 @login_required
 def delete_reservation(request, reservation_id):
-    reservation = get_object_or_404(Reservation, reservation_id)
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
 
-    if request.user != reservation.user or not request.user.is_staff():
-        messages.warning("You cannot delete that reservation!")
+    if request.user != reservation.user and not request.user.is_staff:
+        messages.warning(request, "You cannot delete that reservation!")
     else:
         reservation.delete()
-        messages.success("Reservation removed")
+        messages.success(request, "Reservation removed")
 
     return redirect('brewhouse.views.list_reservations')
-
-
-@login_required
-def approve_reservation(request, reservation_id):
-    return HttpResponse('not implemented')
-    r = get_object_or_404(Reservation, reservation_id)
-    r.approved = True
-    r.save()
-
-    messages.success(request, "Reservation approved")
-    # TODO send an email telling the user
-    
-
-@login_required
-def fulfill_reservation(request, reservation_id):
-    return HttpResponse('not implemented')
-    r = get_object_or_404(Reservation, reservation_id)
-    r.fulfilled = True
-    r.save()
-
-    messages.success(request, "Reservation marked as fulfilled")
-    # TODO send an email telling the user
     

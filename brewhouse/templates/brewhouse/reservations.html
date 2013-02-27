@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Beer Reservations{% endblock %}
+
+{% block content %}
+{% if reservations %}
+<h1>Your Beer Reservations</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Beer</th>
+            <th>Approved?</th>
+            <th>Fulfilled?</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reservations %}
+        <tr>
+            <td><a href="{% url 'beer-show' r.beer.id%}">{{ r.beer }}</a></td>
+            <td>{{ r.approved|yesno|capfirst }}</td>
+            <td>{{ r.fulfilled|yesno|capfirst }}</td>
+            <td>
+                <a href="{% url 'brewhouse.views.delete_reservation' r.id %}" onclick='return confirm("Are you sure you want to delete your reservation for {{r.beer.name}}?");'>
+                    Remove reservation
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <h1>You have no beer reserved!</h1>
+    <p>
+        <a href="{% url 'brewhouse-display' %}">Go back to the brewhouse page</a>
+    </p>
+{% endif %}
+{% endblock %}
