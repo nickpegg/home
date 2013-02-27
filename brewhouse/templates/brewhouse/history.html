@@ -5,7 +5,7 @@
 {% block content %}
 <ul class="breadcrumb">
     <li><a href="/">Nick's Apartment</a> <span class="divider">/</span></li>
-    <li><a href="{% url brewhouse-display %}">Brewhouse</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'brewhouse-display' %}">Brewhouse</a> <span class="divider">/</span></li>
     <li class="active">History</li>
 </ul>
 
@@ -19,7 +19,7 @@
     </tr>
     {% for beer, brewed, ready in history %}
     <tr>
-        <td><a href="{% url beer-show beer.id %}">{{ beer.name }}</a></td>
+        <td><a href="{% url 'beer-show' beer.id %}">{{ beer.name }}</a></td>
         <td>{{ brewed.date }}</td>
         <td>{{ ready.date|default:"Unknown" }}</td>
     </tr>

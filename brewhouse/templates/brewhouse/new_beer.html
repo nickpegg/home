@@ -1,11 +1,11 @@
-{% extends "brewhouse/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Add a Beer{% endblock%}
 
 {% block content %}
 <ul class="breadcrumb">
     <li><a href="/">Nick's Apartment</a> <span class="divider">/</span></li>
-    <li><a href="{% url brewhouse-display %}">Brewhouse</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'brewhouse-display' %}">Brewhouse</a> <span class="divider">/</span></li>
     <li class="active">New Beer</li>
 </ul>
 
@@ -18,7 +18,7 @@
     
     <div class="control-group">
 
-    <form method="post" action="{% url django.contrib.auth.views.login %}">
+    <form method="post" action="{% url 'beer-new' %}">
     {% csrf_token %}
     <label class="control-label" for="id_name">Name:</label>
     <div class="controls">

@@ -19,13 +19,13 @@
         Your username and password didn't match. Please try again.
     </div>
 {% endif %}
-<form method="post" action="{% url django.contrib.auth.views.login %}">
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
     <h1>Log in</h1>
     <br />
     <p>
-        <a class="btn btn-block btn-info" href="{% url socialauth_begin 'google-oauth2' %}">Sign in with Google</a>
-        <a class="btn btn-block btn-info" href="{% url socialauth_begin 'twitter' %}">Sign in with Twitter</a>
-        <a class="btn btn-block btn-info" href="{% url socialauth_begin 'github' %}">Sign in with GitHub</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'google-oauth2' %}">Sign in with Google</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'twitter' %}">Sign in with Twitter</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'github' %}">Sign in with GitHub</a>
     </p>
     
     <br />
@@ -35,7 +35,7 @@
     <input type="text" name="username" placeholder="Username" maxlength="30" /><br />
     <input type="password" name="password" placeholder="Password" /><br />
 
-    <p><a href="{% url django.contrib.auth.views.password_reset %}">Forgot your password?</a></p>
+    <p><a href="{% url 'django.contrib.auth.views.password_reset' %}">Forgot your password?</a></p>
 
     <input class="btn btn-primary" type="submit" value="Log In" />
     <input type="hidden" name="next" value="{{ next }}" />

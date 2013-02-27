@@ -26,7 +26,7 @@
                     <ul class="nav">
                         <li class="{% navactive request '^/$' %}"><a href="/">Home</a></li>
                         <li class="{% navactive request '^/brewhouse/' %}">
-                            <a href="{% url brewhouse-display %}">Brewhouse</a>
+                            <a href="{% url 'brewhouse-display' %}">Brewhouse</a>
                         </li>
                         <!--
                         <li class="disabled {% block nav_class_reminders %}{% endblock %}"><a href="#">Reminders</a></li>
@@ -40,7 +40,7 @@
                             {% if user.is_staff %}
                                 <li><a href="/admin/">Admin</a></li>
                             {% endif %}
-                            <li class="{% navactive request '^/accounts/profile/' %}"><a href="{% url accounts.views.profile %}">Profile</a></li>
+                            <li class="{% navactive request '^/accounts/profile/' %}"><a href="{% url 'accounts.views.profile' %}">Profile</a></li>
                             <li><a href="/accounts/logout/">Log out</a></li>
                         {% else %}
                             <li><a class="{% navactive request '^/accounts/signup/' %}" href="/accounts/signup/">Sign up</a></li>
@@ -58,7 +58,7 @@
             <ul class="nav nav-tabs nav-stacked">
                 <li class="{% navactive request '^/$' %}"><a href="/">Home</a></li>
                 <li class="{% navactive request '^/brewhouse/' %}">
-                    <a href="{% url brewhouse-display %}">Brewhouse</a>
+                    <a href="{% url 'brewhouse-display' %}">Brewhouse</a>
                 </li>
                 <!--
                 <li class="disabled"><a href="#">Reminders</a></li>
@@ -69,7 +69,7 @@
                     {% if user.is_staff %}
                         <li><a href="/admin/">Admin</a></li>
                     {% endif %}
-                    <li class="{% navactive request '^/accounts/profile/' %}"><a href="{% url accounts.views.profile %}">Profile</a></li>
+                    <li class="{% navactive request '^/accounts/profile/' %}"><a href="{% url 'accounts.views.profile' %}">Profile</a></li>
                     <li><a href="/accounts/logout/">Log out</a></li>
                 {% else %}
                     <li><a class="{% navactive request '^/accounts/signup/' %}" href="/accounts/signup/">Sign up</a></li>

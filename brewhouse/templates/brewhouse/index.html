@@ -1,4 +1,4 @@
-{% extends "brewhouse/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Brewhouse{% endblock %}
 
@@ -11,7 +11,7 @@
 {% if user.is_staff %}
 <h2>Admin Links</h2>
 <ul class="nav nav-pills">
-    <li><a href="{% url beer-new %}">Add a beer</a></li>
+    <li><a href="{% url 'beer-new' %}">Add a beer</a></li>
 </ul>
 {% endif %}
 
@@ -30,7 +30,7 @@
         <td>{{ tap.number }}</td>
         <td>
             {% if tap.beer %}
-            <a href="{% url beer-show tap.beer.id %}">{{ tap.beer.name }}</a>
+            <a href="{% url 'beer-show' tap.beer.id %}">{{ tap.beer.name }}</a>
             {% else %}
             None
             {% endif %}
@@ -51,7 +51,7 @@
     </tr>
     {% for beer, state, brewed, ready in beers %}
     <tr>
-        <td><a href="{% url beer-show beer.id %}">{{ beer.name }}</a></td>
+        <td><a href="{% url 'beer-show' beer.id %}">{{ beer.name }}</a></td>
         <td>{{ state|default:"Unknown" }}</td>
         <td>{{ ready }}</td>
     </tr>
@@ -63,7 +63,7 @@
 <h2>Last 10 Beers</h2>
 
 <ul class="nav nav-pills">
-    <li><a href="{% url brewhouse-history %}">View Full History</a></li>
+    <li><a href="{% url 'brewhouse-history' %}">View Full History</a></li>
 </ul>
 
 
@@ -75,7 +75,7 @@
     </tr>
     {% for beer, brewed, ready in history %}
     <tr>
-        <td><a href="{% url beer-show beer.id %}">{{ beer.name }}</a></td>
+        <td><a href="{% url 'beer-show' beer.id %}">{{ beer.name }}</a></td>
         <td>{{ brewed.date }}</td>
         <td>{{ ready.date|default:"Unknown" }}</td>
     </tr>

@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="POST" action="{% url django.contrib.auth.views.password_reset %}">
+<form method="POST" action="{% url 'django.contrib.auth.views.password_reset' %}">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Reset Password" />

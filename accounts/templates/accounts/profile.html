@@ -18,7 +18,7 @@
 
 {% block content %}
 <div class="form">
-<form method="post" action="{% url accounts.views.profile %}">
+<form method="post" action="{% url 'accounts.views.profile' %}">
 
     <h2>Edit Profile</h2>
     {% csrf_token %}
@@ -48,7 +48,7 @@
 </div>
 <div class="form">
     <h3>Change Password</h3>
-    <form method="POST" action="{% url accounts.views.profile %}">
+    <form method="POST" action="{% url 'accounts.views.profile' %}">
         {% include 'accounts/forms/pwd_change.html' %}
         <input class="btn btn-primary btn-block" type="submit" value="Change Password" name="do_password" />
     </form>
@@ -60,25 +60,25 @@
         <li>
             Google - 
             {% if associations.google_oauth2 %}
-                <a href="{% url socialauth_disconnect 'google-oauth2' %}">Disconnect</a>
+                <a href="{% url 'socialauth_disconnect' 'google-oauth2' %}">Disconnect</a>
             {% else %}
-                <a href="{% url socialauth_associate_begin 'google-oauth2' %}">Connect</a>
+                <a href="{% url 'socialauth_associate_begin' 'google-oauth2' %}">Connect</a>
             {% endif %}
         </li>
         <li>
             Twitter - 
             {% if associations.twitter %}
-                <a href="{% url socialauth_disconnect 'twitter' %}">Disconnect</a>
+                <a href="{% url 'socialauth_disconnect' 'twitter' %}">Disconnect</a>
             {% else %}
-                <a href="{% url socialauth_associate_begin 'twitter' %}">Connect</a>
+                <a href="{% url 'socialauth_associate_begin' 'twitter' %}">Connect</a>
             {% endif %}
         </li>
         <li>
             GitHub - 
             {% if associations.github %}
-                <a href="{% url socialauth_disconnect 'github' %}">Disconnect</a>
+                <a href="{% url 'socialauth_disconnect' 'github' %}">Disconnect</a>
             {% else %}
-                <a href="{% url socialauth_associate_begin 'github' %}">Connect</a>
+                <a href="{% url 'socialauth_associate_begin' 'github' %}">Connect</a>
             {% endif %}
         </li>
     </ul>
@@ -87,6 +87,6 @@
 
 <div class="form">
     <h3>Danger Zone</h3>
-    <a class="btn btn-block btn-danger" href="{% url accounts.views.delete %}" onclick="return confirm('Are you sure you want to delete your account?');">Delete Account</a>
+    <a class="btn btn-block btn-danger" href="{% url 'accounts.views.delete' %}" onclick="return confirm('Are you sure you want to delete your account?');">Delete Account</a>
 </div>
 {% endblock %}

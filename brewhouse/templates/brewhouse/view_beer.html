@@ -1,11 +1,11 @@
-{% extends "brewhouse/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Beer - {{ beer.name }}{% endblock %}
 
 {% block content %}
 <ul class="breadcrumb">
     <li><a href="/">Nick's Apartment</a> <span class="divider">/</span></li>
-    <li><a href="{% url brewhouse-display %}">Brewhouse</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'brewhouse-display' %}">Brewhouse</a> <span class="divider">/</span></li>
     <li class="active">{{ beer.name }}</li>
 </ul>
 
@@ -16,10 +16,10 @@
 {% if user.is_staff %}
 <h2>Admin Links</h2>
 <ul class="nav nav-pills nav-stacked">
-    <li><a href="{% url admin:brewhouse_beer_change beer.id %}">Edit this beer in admin</a></li>
+    <li><a href="{% url 'admin:brewhouse_beer_change' beer.id %}">Edit this beer in admin</a></li>
     
     {% if not beer_gone %}
-        <li><a href="{% url brewhouse.views.beer_gone beer.id %}" onclick="return confirm('Are you sure you want to mark this beer
+        <li><a href="{% url 'brewhouse.views.beer_gone' beer.id %}" onclick="return confirm('Are you sure you want to mark this beer
  as gone?');">Mark this beer as gone</a></li>
     {% endif %}
 </ul>
@@ -57,7 +57,7 @@
     <li>
         {{ event.resolve_etype }} on {{ event.date }}
         {% if user.is_staff %}
-            (<a href="{% url event-complete event.id %}" onclick="return confirm('Are you sure you want to set this event as done today?');">Did this today</a>)
+            (<a href="{% url 'event-complete' event.id %}" onclick="return confirm('Are you sure you want to set this event as done today?');">Did this today</a>)
         {% endif %}
     </li>
 {% endfor %}

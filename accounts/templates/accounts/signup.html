@@ -17,13 +17,13 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" action="{% url accounts.views.register %}">
+<form method="post" action="{% url 'accounts.views.register' %}">
     <h1>Sign Up</h1>
     <br />
     <p>
-        <a class="btn btn-block btn-info" href="{% url socialauth_begin 'google-oauth2' %}">Sign in with Google</a>
-        <a class="btn btn-block btn-info" href="{% url socialauth_begin 'twitter' %}">Sign in with Twitter</a>
-        <a class="btn btn-block btn-info" href="{% url socialauth_begin 'github' %}">Sign in with GitHub</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'google-oauth2' %}">Sign in with Google</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'twitter' %}">Sign in with Twitter</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'github' %}">Sign in with GitHub</a>
     </p>
     <br />
     <h3>Or fill out this form:</h3>
