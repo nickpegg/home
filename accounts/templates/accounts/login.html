@@ -23,9 +23,9 @@
     <h1>Log in</h1>
     <br />
     <p>
-        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'google-oauth2' %}">Sign in with Google</a>
-        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'twitter' %}">Sign in with Twitter</a>
-        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'github' %}">Sign in with GitHub</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'google-oauth2' %}?{{ redirect_querystring }}">Sign in with Google</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'twitter' %}?{{ redirect_querystring }}">Sign in with Twitter</a>
+        <a class="btn btn-block btn-info" href="{% url 'socialauth_begin' 'github' %}?{{ redirect_querystring }}">Sign in with GitHub</a>
     </p>
     
     <br />
