@@ -3,7 +3,14 @@
     <p>
         <h5>{{ field.label }}:</h5>
         <div>{{ field }}</div>
-        <span class="helptext">{{ field.help_text }}</span>
+        <span class="helptext">
+            {% if field.name == "old_password" %}
+                Note: Your "Old password" is blank if you didn't create an account with a password and never have reset your password.
+            {% else %}
+                {{ field.help_text }}
+            {% endif %}
+        </span>
+        
         {% if field.errors %}
             <div class="alert alert-error">
                 {{ field.errors }}
