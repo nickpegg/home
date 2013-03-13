@@ -192,7 +192,7 @@ def notify_reservation_user(sender, instance, **kwargs):
     if original and instance.user.email:
         if not original.approved and instance.approved:
             msg = render_to_string('brewhouse/email/reservation_approved.html', {'reservation': instance})
-            send_mail('Your beer reservation has been approved!', msg, 'nick@nickpegg.com', [instance.user.email], fail_silently=True)
+            send_mail('Your beer reservation has been approved!', msg, 'home@nickpegg.com', [instance.user.email], fail_silently=True)
         if not original.fulfilled and instance.fulfilled:
             msg = render_to_string('brewhouse/email/reservation_fulfilled.html', {'reservation': instance})
-            send_mail('Your beer reservation has been fulfilled!', msg, 'nick@nickpegg.com', [instance.user.email], fail_silently=True)
+            send_mail('Your beer reservation has been fulfilled!', msg, 'home@nickpegg.com', [instance.user.email], fail_silently=True)
