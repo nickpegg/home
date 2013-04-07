@@ -91,7 +91,7 @@ class Beer(models.Model):
         return gone
 
     def is_reservable(self):
-        # Assumes all reservations are for 1 gallon
+        # Assumes all reservations are for 1/2 gallon
         # and that we only release 3 gallons of a particular beer
         return not self.is_gone() and self.reservation_set.count() < 3 and not self.unreservable
 
