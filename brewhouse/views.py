@@ -11,7 +11,7 @@ from forms import AddBeerForm
 
 
 def display(request):
-    taps = Tap.objects.all()
+    taps = Tap.objects.all().order_by('id')
     
     # Gather up the upcoming-but-not-ready beers
     beers = []
