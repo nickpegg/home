@@ -3,3 +3,4 @@ dev.db
 home/envs/production.py
 home/envs/testing.py
 home/settings.py
+creds.txt
