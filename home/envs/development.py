@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     
     'south',
     'social_auth',
+    'djcelery',
     
     'home',
     'accounts',
@@ -204,3 +205,5 @@ LOGGING = {
     }
 }
 
+BROKER_URL = 'amqp://guest:guest@localhost:5672/home_dev'
+CELERY_RESULT_BACKEND = 'amqp'
