@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Weight Tracking{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Nick's Life</a> <span class="divider">/</span></li>
+    <li class="active">Weight Tracking</li>
+</ul>
+
+<h2>Weight Tracking</h2>
+
+<p>
+    Withings account connected? {{ connected }}
+</p>
+{% if connected %}
+    <p>
+        <a href="{% url 'weight.views.disconnect_withings' %}">Disconnect Withings account</a>
+    </p>
+{% endif %}
+
+{% endblock %}

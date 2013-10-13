@@ -141,12 +141,14 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-TWITTER_CONSUMER_KEY         = ''
-TWITTER_CONSUMER_SECRET      = ''
-GOOGLE_OAUTH2_CLIENT_ID      = ''
-GOOGLE_OAUTH2_CLIENT_SECRET  = ''
-GITHUB_APP_ID                = ''
-GITHUB_API_SECRET            = ''
+TWITTER_CONSUMER_KEY            = ''
+TWITTER_CONSUMER_SECRET         = ''
+GOOGLE_OAUTH2_CLIENT_ID         = ''
+GOOGLE_OAUTH2_CLIENT_SECRET     = ''
+GITHUB_APP_ID                   = ''
+GITHUB_API_SECRET               = ''
+WITHINGS_KEY                    = ''
+WITHINGS_SECRET                 = ''
 
 LOGIN_URL          = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
@@ -174,6 +176,7 @@ INSTALLED_APPS = (
     'home',
     'accounts',
     'brewhouse',
+    'weight',
 )
 
 # A sample logging configuration. The only tangible logging

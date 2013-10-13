@@ -10,3 +10,5 @@ pycrypto==2.6
 python-openid==2.2.5
 celery==3.0.24
 django-celery==3.0.23
+withings==0.3
+requests-oauthlib==0.4.0

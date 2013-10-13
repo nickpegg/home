@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Connect Withings Account{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Nick's Life</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'weight-dashboard' %}">Weight Tracking</a> <span class="divider">/</span></li>
+    <li class="active">Connect Withings Account</li>
+</ul>
+
+<h2>Connect Withings Account</h2>
+
+<h3>Debug Mode - Specify a callback URL</h3>
+
+<p>I suggest using <a href="http://requestb.in/">requestb.in</a></p>
+
+<form method='GET' class="form-horizontal" action="{% url 'weight.views.connect_withings' %}">
+    <div class='control-group'>
+        <label class="control-label" for="id_callback_url">Callback URL:</label>
+        <div class='controls'>
+            <input id="id_callback_url" type="text" name="callback_url" value='{{ default_callback }}'maxlength="512" />
+        </div>
+    </div>
+    
+    <div class='control-group'>
+        <div class='controls'>
+            <input type="submit" class="btn btn-primary" value="Connect Withings" />
+        </div>
+    </div>
+    
+</form>
+
+{% endblock %}
