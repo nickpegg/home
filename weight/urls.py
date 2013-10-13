@@ -8,4 +8,8 @@ urlpatterns = patterns('weight.views',
     url(r'^connect/withings/authorize/$', 'connect_withings_finish'),
 
     url(r'^disconnect/withings/$', 'disconnect_withings'),
+
+    # Temporary testing crap
+    url(r'update/$', 'update'),
+    url(r'update/all/$', 'update_all'),
 )

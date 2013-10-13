@@ -13,10 +13,35 @@
 <p>
     Withings account connected? {{ connected }}
 </p>
-{% if connected %}
-    <p>
-        <a href="{% url 'weight.views.disconnect_withings' %}">Disconnect Withings account</a>
-    </p>
+
+<ul class="nav nav-tabs nav-stacked">
+    {% if connected %}
+        <li><a href="{% url 'weight.views.disconnect_withings' %}">Disconnect Withings account</a></li>
+        <li><a href="{% url 'weight.views.update' %}">Force a data update</a></li>
+    {% else %}
+        <li><a href="{% url 'weight.views.connect_withings' %}">Connect Withings account</a></li>
+    {% endif %}
+</ul>
+
+
+<h3>Weight Data</h3>
+{% if entries %}
+    <h4>Current Weight: {{ current_weight }} lbs</h4>
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Weight (lbs)</th>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+                <tr>
+                    <td>{{ entry.when }}</td>
+                    <td>{{ entry.weight }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endif %}
 
 {% endblock %}

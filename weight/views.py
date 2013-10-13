@@ -7,7 +7,10 @@ from django.core.urlresolvers import reverse
 import withings
 
 from home import settings
-from models import WithingsAuth
+
+import tasks
+from models import WithingsAuth, WeightEntry
+
 
 
 @login_required
@@ -19,7 +22,36 @@ def dashboard(request):
     except:
         connected = False
 
+    weight = None
+    if connected:
+        entries = WeightEntry.objects.filter(user=request.user)
+        if entries:
+            current_weight = entries[0].weight
+
     return render(request, 'weight/index.html', locals())
+
+
+@login_required
+@permission_required('weight.can_use')
+def update(request):
+    #result = tasks.fetch_weight.delay(request.user)
+    result = tasks.fetch_weight.delay(request.user)
+    err_code = result.get(timeout=15)
+
+    if err_code == 1:
+        messages.error(request, "You need to connect your Withings account first!")
+    else:
+        messages.success(request, "Your weight data has been updated")
+
+    return redirect('weight-dashboard')
+
+
+@login_required
+def update_all(request):
+    # TODO Remove this view and make this a periodic task
+    tasks.update_all_users.delay()
+
+    return redirect('weight-dashboard')
 
 
 @login_required
@@ -32,7 +64,7 @@ def new(request):
 @permission_required('weight.can_use')
 def connect_withings(request):
     default_callback = 'https://www.home.nickpegg.com' + reverse('weight.views.connect_withings_finish')
-    
+
     if not settings.DEBUG:
         callback = default_callback
     elif 'callback_url' in request.GET:
@@ -44,26 +76,21 @@ def connect_withings(request):
         auth = withings.WithingsAuth(settings.WITHINGS_CONSUMER_KEY, settings.WITHINGS_CONSUMER_SECRET)
         auth_url = auth.get_authorize_url(callback_url=callback)
 
-        # Stash the request token info in the session for later use
-        request.session['oauth_token'] = auth.oauth_token
-        request.session['oauth_token_secret'] = auth.oauth_secret
+        # Stash the request token info for later use
+        request.session['withings_auth'] = auth
 
         return redirect(auth_url)
     else:
         return render(request, 'weight/connect/withings.html', locals())
 
 
+@login_required
+@permission_required('weigh.can_use')
 def connect_withings_finish(request):
     if 'oauth_verifier' in request.GET:
-        auth = withings.WithingsAuth(settings.WITHINGS_CONSUMER_KEY, settings.WITHINGS_CONSUMER_SECRET)
-        auth.oauth_token = request.session['oauth_token']
-        auth.oauth_secret = request.session['oauth_token_secret']
-
+        auth = request.session['withings_auth']
         creds = auth.get_credentials(request.GET['oauth_verifier'])
-
-        # Clear out the request token info from the session since it's not needed now
-        del request.session['oauth_token']
-        del request.session['oauth_token_secret']
+        del request.session['withings_auth']
 
         # Stash the creds
         wa = WithingsAuth()
