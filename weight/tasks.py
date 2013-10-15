@@ -4,6 +4,8 @@ import logging
 import celery
 import withings
 
+from django.utils import timezone
+
 from home import settings
 from models import WeightEntry, WithingsAuth
 
@@ -55,7 +57,7 @@ def fetch_weight(user):
 
         entry = WeightEntry()
         entry.user = user
-        entry.when = measurement.date
+        entry.when = timezone.make_aware(measurement.date, timezone.get_default_timezone())
         entry.weight = measurement.weight * KG_TO_LBS
         entry.source = 1
         entry.save()
