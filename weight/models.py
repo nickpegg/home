@@ -7,9 +7,11 @@ from home import settings
 
 
 class WeightEntry(models.Model):
+    SOURCE_MANUAL = 0
+    SOURCE_WITHINGS = 1
     ENTRY_SOURCES = (
-        (0, 'manual'),
-        (1, 'withings'),
+        (SOURCE_MANUAL, 'manual'),
+        (SOURCE_WITHINGS, 'withings'),
     )
 
     user = models.ForeignKey(auth.models.User)

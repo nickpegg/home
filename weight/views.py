@@ -69,8 +69,11 @@ def connect_withings(request):
         callback = default_callback
     elif 'callback_url' in request.GET:
         callback = request.GET['callback_url']
+        request.session['withings_callback_url'] = callback
     else:
         callback = ''
+        if 'withings_callback_url' in request.session:
+            default_callback = request.session['withings_callback_url']
 
     if callback:
         auth = withings.WithingsAuth(settings.WITHINGS_CONSUMER_KEY, settings.WITHINGS_CONSUMER_SECRET)
@@ -100,6 +103,10 @@ def connect_withings_finish(request):
         wa.oauth_secret = creds.access_token_secret
         wa.save()
 
+        # Snag all of their data while you're at it
+        request.session['withings_data_pending'] = True
+        tasks.fetch_weight.delay(request.user)
+
         messages.success(request, 'You have successfully connected your Withings account')
     elif settings.DEBUG:
         return render(request, 'weight/connect/withings_authorize.html', locals())
@@ -113,6 +120,9 @@ def disconnect_withings(request):
     try:
         wa = request.user.withings_auth
         wa.delete()
+
+        WeightEntry.objects.filter(user=request.user).filter(source=WeightEntry.SOURCE_WITHINGS).delete()
+
         messages.success(request, "Your Withings account has been disconnected")
     except:
         messages.error(request, "Unable to disconnect Withings account")
