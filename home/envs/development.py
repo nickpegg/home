@@ -104,7 +104,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
-    
+
     'social_auth.context_processors.social_auth_by_name_backends',
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
@@ -147,8 +147,8 @@ GOOGLE_OAUTH2_CLIENT_ID         = ''
 GOOGLE_OAUTH2_CLIENT_SECRET     = ''
 GITHUB_APP_ID                   = ''
 GITHUB_API_SECRET               = ''
-WITHINGS_KEY                    = ''
-WITHINGS_SECRET                 = ''
+WITHINGS_CONSUMER_KEY           = ''
+WITHINGS_CONSUMER_SECRET        = ''
 
 LOGIN_URL          = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
