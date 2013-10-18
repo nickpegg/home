@@ -121,10 +121,70 @@ def disconnect_withings(request):
         wa = request.user.withings_auth
         wa.delete()
 
-        WeightEntry.objects.filter(user=request.user).filter(source=WeightEntry.SOURCE_WITHINGS).delete()
+        WeightEntry.objects \
+            .filter(user=request.user) \
+            .filter(source=WeightEntry.SOURCE_WITHINGS) \
+            .delete()
 
         messages.success(request, "Your Withings account has been disconnected")
     except:
         messages.error(request, "Unable to disconnect Withings account")
 
     return redirect('weight-dashboard')
+
+
+@login_required
+@permission_required('weight.can_use')
+def subscribe_withings(request):
+    subscription_url = request.GET.get('callback_url')
+    if not subscription_url:
+        if settings.DEBUG:
+            subscription_url = request.session.get('withings_callback_url')
+            return render(request, 'weight/subscribe/withings.html', locals())
+        else:
+            subscription_url = 'http://home.nickpegg.com' + reverse('weight.views.subscribe_withings_receive')
+
+    tasks.subscribe_withings.delay(request.user, subscription_url)
+
+    return redirect('weight-dashboard')
+
+
+@login_required
+@permission_required('weight.can_use')
+def unsubscribe_withings(request):
+    wauth = get_object_or_404(WithingsAuth, user=request.user)
+
+    creds = withings.WithingsCredentials(
+        consumer_key=settings.WITHINGS_CONSUMER_KEY,
+        consumer_secret=settings.WITHINGS_CONSUMER_SECRET,
+        access_token=wauth.oauth_token,
+        access_token_secret=wauth.oauth_secret,
+        user_id=wauth.uid)
+    api = withings.WithingsApi(creds)
+
+    url = request.session.get('withings_callback_url')
+    if not url:
+        url = 'http://home.nickpegg.com' + reverse('weight.views.subscribe_withings_receive')
+
+    # TODO delay() this
+    tasks.unsubscribe_withings.delay(request.user, url)
+
+    # TODO fix debugs
+    return HttpResponse(api.list_subscriptions())
+
+
+def subscribe_withings_receive(request):
+    """
+    Handles data that Withings posts to us
+    """
+
+    if request.method == 'POST':
+        wauth = get_object_or_404(WithingsAuth, uid=request.POST['userid'])
+
+        tasks.fetch_weight.delay(wauth.user,
+                                 startdate=request.POST['startdate'],
+                                 enddate=request.POST['enddate'])
+
+        return HttpResponse("Thanks for the data, Withings! <3")
+    else:
+        return HttpResponse("Hi Withings! Gimme your datas!")

@@ -9,6 +9,10 @@ urlpatterns = patterns('weight.views',
 
     url(r'^disconnect/withings/$', 'disconnect_withings'),
 
+    url(r'^subscribe/withings/$', 'subscribe_withings'),
+    url(r'^unsubscribe/withings/$', 'unsubscribe_withings'),
+    url(r'^subscribe/withings/receive/$', 'subscribe_withings_receive'),
+
     # Temporary testing crap
     url(r'update/$', 'update'),
     url(r'update/all/$', 'update_all'),
