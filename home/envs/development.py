@@ -31,7 +31,7 @@ EMAIL_HOST_PASSWORD = ''
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -104,7 +104,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
-    
+
     'social_auth.context_processors.social_auth_by_name_backends',
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
@@ -141,12 +141,14 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-TWITTER_CONSUMER_KEY         = ''
-TWITTER_CONSUMER_SECRET      = ''
-GOOGLE_OAUTH2_CLIENT_ID      = ''
-GOOGLE_OAUTH2_CLIENT_SECRET  = ''
-GITHUB_APP_ID                = ''
-GITHUB_API_SECRET            = ''
+TWITTER_CONSUMER_KEY            = ''
+TWITTER_CONSUMER_SECRET         = ''
+GOOGLE_OAUTH2_CLIENT_ID         = ''
+GOOGLE_OAUTH2_CLIENT_SECRET     = ''
+GITHUB_APP_ID                   = ''
+GITHUB_API_SECRET               = ''
+WITHINGS_CONSUMER_KEY           = ''
+WITHINGS_CONSUMER_SECRET        = ''
 
 LOGIN_URL          = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
@@ -166,14 +168,15 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    
+
     'south',
     'social_auth',
     'djcelery',
-    
+
     'home',
     'accounts',
     'brewhouse',
+    'weight',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Connect Withings Account{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Nick's Life</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'weight-dashboard' %}">Weight Tracking</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'weight.views.connect_withings' %}">Connect Withings Account</a> <span class="divider">/</span></li>
+    <li class="active">Step 2</li>
+</ul>
+
+<h2>Connect Withings Account - Step 2</h2>
+
+<h3>Debug Mode - Specify the oauth_verifier</h3>
+
+<p>You should have gotten the oauth_verifier either from Withings or some request-watcher tool like <a href="http://requestb.in/">requestb.in</a></p>
+
+<form method='GET' class="form-horizontal" action="{% url 'weight.views.connect_withings_finish' %}">
+    <div class='control-group'>
+        <label class="control-label">oauth_verifier:</label>
+        <div class='controls'>
+            <input type="text" name="oauth_verifier" maxlength="512" />
+        </div>
+    </div>
+
+    <div class='control-group'>
+        <div class='controls'>
+            <input type="submit" class="btn btn-primary" value="Connect Withings" />
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
