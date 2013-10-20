@@ -28,6 +28,11 @@
                         <li class="{% navactive request '^/brewhouse/' %}">
                             <a href="{% url 'brewhouse-display' %}">Brewhouse</a>
                         </li>
+                        {% if perms.weight.can_use %}
+                        <li>
+                            <a href="{% url 'weight-dashboard' %}">Weight</a>
+                        </li>
+                        {% endif %}
                         <!--
                         <li class="disabled {% block nav_class_reminders %}{% endblock %}"><a href="#">Reminders</a></li>
                         <li class="disabled {% block nav_class_lights %}{% endblock %}"><a href="#">Lights</a></li>
