@@ -39,7 +39,6 @@ def dashboard(request):
 @login_required
 @permission_required('weight.can_use')
 def update(request):
-    #result = tasks.fetch_weight.delay(request.user)
     result = tasks.fetch_weight.delay(request.user)
     err_code = result.get(timeout=15)
 
@@ -210,11 +209,9 @@ def unsubscribe_withings(request):
     if not url:
         url = 'http://home.nickpegg.com' + reverse('weight.views.subscribe_withings_receive')
 
-    # TODO delay() this
     tasks.unsubscribe_withings.delay(request.user, url)
 
-    # TODO fix debugs
-    return HttpResponse(api.list_subscriptions())
+    return redirect('weight-dashboard')
 
 
 def subscribe_withings_receive(request):
