@@ -1,10 +1,15 @@
+import json
+import time
+from datetime import datetime, timedelta
+
+import withings
+
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-
-import withings
+from django.utils import timezone
 
 from home import settings
 
@@ -58,6 +63,45 @@ def update_all(request):
 @permission_required('weight.can_use')
 def new(request):
     raise NotImplementedError()
+
+
+@login_required
+@permission_required('weight.can_use')
+def n_days(request, days):
+    return render(request, 'weight/n_days.html', locals())
+
+
+@login_required
+@permission_required('weight.can_use')
+def highcharts_n_days(request, days):
+    """
+    Gets the last N days of the user's weight and
+    returns it in a highcharts-friendly format
+    """
+
+    then = datetime.now() - timedelta(days=int(days))
+    entries = WeightEntry.objects.filter(when__gte=then).order_by('when')
+
+    timeout = time.time() + 15
+    timed_out = False
+    while not len(entries) and not timed_out:
+        # Ghetto hack to keep the chart from loading until we have data
+        timed_out = time.time() < timeout
+        time.sleep(0.25)
+        entries = WeightEntry.objects.filter(when__gte=then).order_by('when')
+
+    if timed_out:
+        return HttpResponse('timeout')
+
+    data = []
+    for entry in entries:
+        #milliseconds = int(timezone.localtime(entry.when).strftime('%s')) * 1000
+        milliseconds = int(timezone.localtime(entry.when).strftime('%s')) * 1000
+        data.append([milliseconds, float(entry.weight)])
+
+    series = [{'name': 'weight', 'data': data}]
+
+    return HttpResponse(json.dumps(series))
 
 
 @login_required

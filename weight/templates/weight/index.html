@@ -8,40 +8,52 @@
     <li class="active">Weight Tracking</li>
 </ul>
 
-<h2>Weight Tracking</h2>
-
-<p>
-    Withings account connected? {{ connected }}
-</p>
-
 <ul class="nav nav-tabs nav-stacked">
     {% if connected %}
         <li><a href="{% url 'weight.views.disconnect_withings' %}">Disconnect Withings account</a></li>
         <li><a href="{% url 'weight.views.update' %}">Force a data update</a></li>
+        <li><a href="{% url 'weight.views.n_days' 7 %}">7-Day Graph</a></li>
+        <li><a href="{% url 'weight.views.n_days' 30 %}">30-Day Graph</a></li>
+        <li><a href="{% url 'weight.views.n_days' 90 %}">90-Day Graph</a></li>
+        <li><a href="{% url 'weight.views.n_days' 365 %}">1-Year Graph</a></li>
     {% else %}
         <li><a href="{% url 'weight.views.connect_withings' %}">Connect Withings account</a></li>
     {% endif %}
 </ul>
 
+{% if connected %}
+    <h3>Weight Data</h3>
 
-<h3>Weight Data</h3>
-{% if entries %}
-    <h4>Current Weight: {{ current_weight }} lbs</h4>
-    <table class="table table-hover table-condensed">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Weight (lbs)</th>
-        </thead>
-        <tbody>
-            {% for entry in entries %}
+    <div id="weight_chart" style="width:100%; height:300px;"></div>
+
+    {% if entries %}
+        <table class="table table-hover table-condensed">
+            <thead>
                 <tr>
-                    <td>{{ entry.when }}</td>
-                    <td>{{ entry.weight }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <th>Date</th>
+                    <th>Weight (lbs)</th>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ entry.when }}</td>
+                        <td>{{ entry.weight }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endif %}
 
+{% endblock %}
+
+{% block js_include %}
+<script src="{{ STATIC_URL }}js/chart.js"></script>
+{% endblock %}
+
+{% block js %}
+fetch_url = "{% url 'weight.views.highcharts_n_days' 7 %}";
+chartOptions.chart.renderTo = "weight_chart";
+chartOptions.title.text = "Weight - Last 7 Days";
+chart = new Highcharts.Chart(chartOptions);
 {% endblock %}

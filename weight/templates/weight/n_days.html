@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Weight Tracking{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/">Nick's Life</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'weight-dashboard' %}">Weight Tracking</a> <span class="divider">/</span></li>
+    <li class="active">Last {{ days }} Days</li>
+</ul>
+
+<div id="weight_chart" style="width:100%; height:400px;"></div>
+
+{% endblock %}
+
+{% block js_include %}
+<script src="{{ STATIC_URL }}js/chart.js"></script>
+{% endblock %}
+
+{% block js %}
+fetch_url = "{% url 'weight.views.highcharts_n_days' days %}";
+chartOptions.chart.renderTo = "weight_chart";
+chartOptions.title.text = "Weight - Last {{ days }} Days";
+chart = new Highcharts.Chart(chartOptions);
+{% endblock %}
