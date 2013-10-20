@@ -52,7 +52,7 @@ def update(request):
 
 @login_required
 def update_all(request):
-    # TODO Remove this view and make this a periodic task
+    # TODO Remove this view and make this a periodic task?
     tasks.update_all_users.delay()
 
     return redirect('weight-dashboard')
@@ -61,7 +61,23 @@ def update_all(request):
 @login_required
 @permission_required('weight.can_use')
 def new(request):
-    raise NotImplementedError()
+    # TODO: let the user pick the date/time
+    if request.method == "POST":
+        try:
+            weight = float(request.POST['weight'])
+
+            entry = WeightEntry()
+            entry.user = request.user
+            entry.weight = weight
+            entry.when = timezone.make_aware(datetime.now(), timezone.get_default_timezone())
+            entry.source = WeightEntry.SOURCE_MANUAL
+            entry.save()
+
+            messages.success(request, "Successfully added your weight data")
+        except:
+            messages.error(request, "Unable to parse the weight you gave me")
+
+    return render(request, 'weight/new.html', locals())
 
 
 @login_required
@@ -94,7 +110,6 @@ def highcharts_n_days(request, days):
 
     data = []
     for entry in entries:
-        #milliseconds = int(timezone.localtime(entry.when).strftime('%s')) * 1000
         milliseconds = int(timezone.localtime(entry.when).strftime('%s')) * 1000
         data.append([milliseconds, float(entry.weight)])
 
