@@ -63,7 +63,7 @@ def fetch_weight(user, startdate=None, enddate=None):
         entry = WeightEntry()
         entry.user = user
         entry.when = timezone.make_aware(measurement.date, timezone.get_default_timezone())
-        entry.weight = measurement.weight * KG_TO_LBS
+        entry.weight = str(measurement.weight * KG_TO_LBS)
         entry.source = 1
         entry.save()
 
