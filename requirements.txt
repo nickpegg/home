@@ -12,3 +12,4 @@ celery==3.0.24
 django-celery==3.0.23
 withings==0.3
 requests-oauthlib==0.4.0
+radiotherm>=1.2
