@@ -29,7 +29,7 @@ def dashboard(request):
 
     weight = None
     if connected:
-        entries = WeightEntry.objects.filter(user=request.user)
+        entries = WeightEntry.objects.filter(user=request.user)[:30]
         if entries:
             current_weight = entries[0].weight
 
