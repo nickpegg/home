@@ -29,7 +29,7 @@
                             <a href="{% url 'brewhouse-display' %}">Brewhouse</a>
                         </li>
                         {% if perms.weight.can_use %}
-                        <li>
+                        <li class="{% navactive request '^/weight/' %}">
                             <a href="{% url 'weight-dashboard' %}">Weight</a>
                         </li>
                         {% endif %}
