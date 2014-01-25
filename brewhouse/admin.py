@@ -6,7 +6,7 @@ class EventInline(admin.TabularInline):
 
 class BeerAdmin(admin.ModelAdmin):
     inlines = [EventInline, ]
-    
+
 admin.site.register(Beer, BeerAdmin)
 
 admin.site.register(Event)
