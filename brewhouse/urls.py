@@ -7,8 +7,6 @@ urlpatterns = patterns('brewhouse.views',
 
     url(r'^beer/new/$', 'beer_new', name='beer-new'),
     url(r'^beer/(?P<id>\d+)/$', 'beer_show', name='beer-show'),
-    url(r'^beer/(?P<id>\d+)/edit/$', 'beer_edit', name='beer-edit'),
-    url(r'^beer/(?P<id>\d+)/delete/$', 'beer_delete', name='beer-delete'),
     url(r'^beer/(?P<beer_id>\d+)/gone/$', 'beer_gone'),
 
     url(r'^beer/(?P<beer_id>\d+)/reserve/$', 'new_reservation'),

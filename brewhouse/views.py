@@ -116,31 +116,6 @@ def beer_new(request):
     return render(request, 'brewhouse/new_beer.html', locals())
 
 
-@login_required
-def beer_edit(request, id):
-    if not request.user.is_superuser:
-        return redirect('brewhouse-display')
-
-    beer = get_object_or_404(pk=id)
-    if request.method == 'POST':
-        form = BeerForm(request.POST, instance=beer)
-
-        if form.is_valid():
-            beer = form.save()
-        else:
-            pass    #TODO set an error
-
-    else:
-        form = BeerForm(instance=beer)
-
-
-@login_required
-def beer_delete(request, id):
-    return HttpResponse("Not implemented.")
-    if not request.user.is_superuser:
-        return redirect('brewhouse-display')
-
-
 @user_passes_test(lambda u: u.is_staff)
 def beer_gone(request, beer_id):
     beer = get_object_or_404(Beer, pk=beer_id)
