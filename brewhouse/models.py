@@ -111,6 +111,7 @@ class Event(models.Model):
         (4, 'Kegged'),
         (5, 'Bottled'),
         (6, 'Gone'),
+        (7, 'Brewing'),
     )
 
     beer        = models.ForeignKey(Beer)
