@@ -24,7 +24,7 @@ class AddBeerForm(forms.Form):
         (5, 'Bottled'),
         (6, 'Ready'),
     )
-    
+
     name        = forms.CharField(max_length=100)
     style       = forms.CharField(max_length=100, required=False)
     recipe_url  = forms.CharField(max_length=1024, required=False)
