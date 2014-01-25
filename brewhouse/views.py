@@ -8,6 +8,7 @@ from django.contrib import messages
 import util
 from models import Beer, Event, Tap, Reservation
 from forms import AddBeerForm
+from tasks import tweet_event
 
 
 def display(request):
@@ -91,6 +92,7 @@ def beer_new(request):
             brew_date = form.cleaned_data['brew_date']
 
             events = (
+                (7, 0),     # brewing
                 (1, 0),     # brewed
                 (2, 0),     # primary fermentation
                 (3, 7),     # secondary fermentation
@@ -131,6 +133,7 @@ def beer_edit(request, id):
     else:
         form = BeerForm(instance=beer)
 
+
 @login_required
 def beer_delete(request, id):
     return HttpResponse("Not implemented.")
@@ -154,6 +157,8 @@ def beer_gone(request, beer_id):
     event.completed = True
     event.save()
 
+    tweet_event.delay(event)
+
     return redirect('beer-show', beer.id)
 
 
@@ -167,7 +172,10 @@ def event_complete(request, event_id):
     event.date = datetime.datetime.now().date()
     event.save()
 
+    tweet_event.delay(event)
+
     return redirect('beer-show', event.beer.id)
+
 
 @login_required
 def new_reservation(request, beer_id):
