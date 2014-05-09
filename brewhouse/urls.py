@@ -1,4 +1,13 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from tastypie.api import Api
+
+import api
+
+
+v1_api = Api(api_name='v1')
+v1_api.register(api.TapResource())
+v1_api.register(api.BeerResource())
+v1_api.register(api.UpcomingResource())
 
 urlpatterns = patterns('brewhouse.views',
     url(r'^$', 'display', name='brewhouse-display'),
@@ -15,4 +24,7 @@ urlpatterns = patterns('brewhouse.views',
 
     url(r'^reservations/$', 'list_reservations'),
     url(r'^reservations/(?P<reservation_id>\d+)/delete/$', 'delete_reservation'),
+
+    # API shiz
+    url(r'^api/', include(v1_api.urls)),
 )
