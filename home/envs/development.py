@@ -172,6 +172,7 @@ INSTALLED_APPS = (
     'south',
     'social_auth',
     'djcelery',
+    'tastypie',
 
     'home',
     'accounts',
@@ -210,3 +211,5 @@ LOGGING = {
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/home_dev'
 CELERY_RESULT_BACKEND = 'amqp'
+
+TASTYPIE_DEFAULT_FORMATS = ['json']
