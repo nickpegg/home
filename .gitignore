@@ -2,6 +2,6 @@
 dev.db
 home/envs/production.py
 home/envs/testing.py
-home/settings.py
+local_settings.py
 creds.txt
 *sublime*

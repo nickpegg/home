@@ -1,5 +1,3 @@
-# Django settings for home project.
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -213,3 +211,8 @@ BROKER_URL = 'amqp://guest:guest@localhost:5672/home_dev'
 CELERY_RESULT_BACKEND = 'amqp'
 
 TASTYPIE_DEFAULT_FORMATS = ['json']
+
+try:
+    from home.local_settings import *
+except:
+    pass
